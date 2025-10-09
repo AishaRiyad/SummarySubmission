@@ -1,0 +1,22 @@
+Checked Exceptions:
+
+checked exceptions represent errors outside the control of the program
+we should use the throws keyword to declare a checked exception
+We can also use a try-catch block to handle a checked exception
+
+common examples checked exceptions in Java are IOException, SQLException and ParseException
+
+Exception class is the superclass of checked exceptions
+
+
+Unchecked Exceptions:
+
+When program throws an unchecked exception, it reflects some error inside the program logic.
+example, if we divide a number by 0, Java will throw ArithmeticException
+
+Java does not verify unchecked exceptions at compile-time
+
+common example unchecked exceptions in Java are NullPointerExceptionArrayIndexOutOfBoundsException and IllegalArgumentException.
+
+RuntimeException class is the superclass of all unchecked exceptions
+we can create a custom unchecked exception by extending RuntimeException
