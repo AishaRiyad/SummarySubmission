@@ -1,0 +1,25 @@
+new abstract layer introduced in Java 8
+process data in a declarative way similar to SQL statements.
+
+stream is a sequence of data, like a list.
+But it doesn't store the data — it pulls from a source and processes it on-the-fly.
+
+Stream lets us apply bulk operations:
+filter() → keep only matching items
+map() → transform items
+reduce() → combine values into one
+collect() → convert stream to a list, set, etc.
+
+Pipelining
+we can chain operations because most of them return a stream.
+
+Automatic Iterations
+ don't need to write loops because the Stream API handles iteration.
+names.stream()
+     .filter(name -> name.startsWith("A"))
+     .forEach(System.out::println);
+
+
+In java8 we can generate stream in two methods from Collection Interface :
+stream() − Returns a sequential stream considering collection as its source
+parallelStream() − Returns a parallel Stream considering collection as its source
