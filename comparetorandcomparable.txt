@@ -1,0 +1,15 @@
+Comparable:
+java.lang
+Used to define the natural ordering of objects
+int compareTo(T o)
+The class itself (the one being compared)
+
+
+
+
+
+Comparator:
+java.util
+Used to define custom or multiple ordering of objects
+int compare(T o1, T o2)
+A separate class (or lambda) that performs the comparison
