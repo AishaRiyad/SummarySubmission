@@ -1,0 +1,16 @@
+Map:
+Interface
+java.util.Map
+Defines a contract (what a map should do)
+Cannot be instantiated
+Ordering depends on implementation
+
+
+
+HashMap:
+Concrete class
+Provides an implementation of that contract
+Can be instantiated
+No specific order of keys/values
+Allows one null key, multiple null values
+Not thread-safe (use ConcurrentHashMap or sync it manually)
