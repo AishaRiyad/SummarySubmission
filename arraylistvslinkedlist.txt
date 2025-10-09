@@ -1,0 +1,26 @@
+ArrayList:
+part of the collection framework.
+present in the java.util package
+provides dynamic arrays in Java	
+slower than standard arrays
+helpful in programs where lots of manipulation in the array is needed
+can dynamically add and remove items
+automatically resizes itself
+supports the storage of all types of objects.
+Inefficient memory utilization
+
+
+
+
+
+LinkedList:
+linear data structure where the elements are not stored in contiguous locations
+every element is a separate object with a data part and address part
+elements are linked using pointers and addresses
+element is known as a node
+ease of insertions and deletions
+supports the storage of all types of objects.
+Manipulating LinkedList takes less time compared to ArrayList because, in a doubly-linked list, there is no concept of shifting the memory bits. 
+The list is traversed and the reference link is changed.
+Good memory utilization.
+More memory is used	
