@@ -1,0 +1,46 @@
+A thread is the smallest unit of a process that can execute code independently
+When we run a Java program, the JVM automatically starts one main thread called the main thread.
+we can create more threads to run multiple tasks simultaneously — this is called multithreading
+
+Threads are useful when we want our program to perform multiple tasks at the same time
+
+ex:Handling multiple user requests in a web server
+
+start()
+Starts the thread (calls run() internally in a new thread).
+
+run()
+The code that runs inside the thread.
+
+sleep(ms)
+Pauses the thread for a given time (in milliseconds).
+
+join()
+Waits for another thread to finish before continuing.
+
+isAlive()
+Checks if the thread is still running.
+
+setPriority()
+Sets the thread’s priority (1–10).
+
+interrupt()
+Interrupts a sleeping or waiting thread.
+
+Thread Life Cycle :
+New → Thread object created, but not started (new Thread()).
+Runnable → start() called, waiting to be scheduled by the CPU
+Running → The thread is executing its run() method
+Blocked / Waiting / Sleeping → Temporarily inactive
+Terminated (Dead) → The thread’s run() method has finished
+
+
+Thread vs Process:
+Thread:
+Shares memory with other threads
+
+Process:
+Has its own memory
+
+
+
