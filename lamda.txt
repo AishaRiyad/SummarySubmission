@@ -1,0 +1,74 @@
+why we use functional programming?
+we can do every thing using oop but we use functional programming to write more readable 
+& maintanable code.
+
+in oop everything is object we cannot have peice of logic a piece of function that exists in isolation
+
+sometimes we donot need to write a class we only want to write a method
+
+if we need just piece of code we cannot do that in java7
+
+lamdas is functions exists in isolation.
+
+lamdas do function as value
+
+when we write a lamda expression the compiler it self know the return type
+it look at the code and know
+
+variableName=()->{}
+
+we write it as function but we remove the access modifier, method name and
+the return type.
+
+  Lambda MyLambda=()->System.out.println("Hi Training");
+        helloGreeting.perform();
+
+the difference that the first is lamda of type greeting which implement function inline
+but the second function in class -> instance of class that implement greeting interface
+
+
+Greeting innerClassGreeting=new Greeting() {
+            @Override
+            public void perform() {
+                System.out.println("Hi Training");
+            }
+        };
+
+this is inline implementation of interface this is anonymous inner class
+class inside class and anonymous inner that has no name
+
+lambda is like this inner class but not exactly the same
+
+ greeter.greet(MyLambda);
+        greeter.greet(innerClassGreeting);
+both print the same
+
+
+with lambda compiler do something called type inference it is important to know
+what type of lambda and what types of data that deals with
+
+greeter.greet(()->System.out.println("Hi Training"));
+here the compiler trys to match the lmbda expression to greeting thats called
+type inference
+
+public class TypeInfernceExample {
+    public static void main(String[] args) {
+        StringLength lambda=( s)->s.length();
+       System.out.println( lambda.getLength("Aisha"));
+    }
+
+    interface StringLength{
+        int getLength(String s);
+
+
+    }
+}
+
+    public static void main(String[] args) {
+//        StringLength lambda=s->s.length();
+//       System.out.println( lambda.getLength("Aisha"));
+        printLength(s->s.length());
+    }
+    public static void printLength(StringLength l){
+System.out.println(l.getLength("Aisha Abu Jeib"));
+    }
