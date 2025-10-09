@@ -1,0 +1,6 @@
+keywords used to control visibility or accessibility of classes, methods, constructors, and variables.
+
+public: Accessible from anywhere
+protected:Accessible within the same package and by subclasses
+(no modifier):Accessible only within the same package
+private:Accessible only within the same class
