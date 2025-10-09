@@ -1,0 +1,3 @@
+methods defined inside interfaces with a default implementation
+introduced in Java 8 to allow interfaces to evolve without breaking existing implementations
+method in an interface that has a body (implementation) and uses the default keyword.
