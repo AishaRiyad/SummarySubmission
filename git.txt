@@ -1,0 +1,123 @@
+git config --global user.name "AishaRiyad"
+git config --global user.email "aisha.abujeib@gmail.com"
+git config --global color.ui auto
+git config --global --list
+git config --list
+
+
+git init .  -> initialize empty git repository
+
+rm -rf .git
+
+git status -> status of changes we made
+
+
+git add filename  ->to tell the git that to include these files in next commit
+git add .  ->for everything
+git add -A  ->stages all changes in your working directory for the next commit
+
+touch filename
+
+git rm --cached filename  -> remove the file from the staging area
+git rm -r --cached .      -> remove all
+
+cd .. ->to be at root
+
+git commit -m " Commit message "
+git commit -a -m "Commit message"->for all
+
+git log
+git show hash
+
+vi filename-> to write
+cat filename ->to see content
+
+git commit --amend -m "message"  ->modifies most recent commit ->Replacing its message with a new one 
+& optionally adding new staged changes to it.
+
+
+git remote add origin https://github.com/AishaRiyad/learning-git.git -> Add a remote repository (a place to push/pull code) and call it origin, located at this GitHub URL.
+
+git branch -M main ->  renames current branch to main
+
+git push -u origin main -> This command pushes local main branch to the remote repository (GitHub) called origin
+
+mv ->To rename a file
+
+git push ->uploads (pushes) local commits to a remote Git repository
+git pull ->Fetches changes from the remote repository & Merges those changes into current local branch
+
+git branch -> shows a list of local branches in Git repository
+git branch -r -> shows remote branches — branches that exist on the remote
+git branch -a -> lists all branches available in local Git repository
+
+git branch feature-a -> Create branch feature-a locally
+git checkout feature-a -> Switch to existing branch feature-a
+git checkout -b feature-a -> Create and switch to feature-a
+git switch -c feature-a -> Same as above (newer syntax)
+
+git push origin feature-a  -> push branch
+
+git branch -d branchname -> delete branch
+git branch -D new_Branch -> force delete
+
+git merge feature-a  ->merges the changes from the feature-a branch into current branch
+
+git log --oneline -> shows commit history in a short and clean format
+
+git rebase -> reapplies my commits on top of another branch
+
+git pull --rebase origin main ->Pull the latest changes from the main branch on the origin remote, and rebase my current branch on top of them
+
+git rebase --continue -> I’ve resolved the conflict(s) — go ahead and continue the rebase process
+
+
+The main difference between git rebase and git merge lies in how they integrate changes from one branch into another and how they affect our commit history. When use git merge, Git combines the changes from one branch into our current branch by creating a special merge commit. This keeps the entire history of both branches intact, which can be useful for understanding how and when features were integrated. However, it can make the history messy, especially with many branches.
+
+On the other hand, git rebase takes the commits from current branch and "replays" them on top of another branch, rewriting history to make it look as if work was done after the other branch’s latest commits. This results in a clean, linear history without merge commits, which is easier to read and follow. However, because rebase rewrites commit history, it should only be used with local branches that haven’t been shared with others — otherwise, it can cause confusion and conflicts in collaboration.
+
+
+.gitignore -> is a special file that tells Git which files or folders to ignore — meaning Git will not track or commit them, even if they exist in your project folder
+
+
+Revert uncommitted changes:
+git restore filename ->Discard local changes
+git reset filename->Unstage a file
+git checkout -- filename->Discard changes
+git restore --source <hash> filename->Revert to a previous commit
+git reset --soft HEAD~1->Undo last commit (keep changes)
+git reset --hard HEAD~1->Undo last commit (delete changes)
+
+
+
+git cherry-pick <hash>->Apply a specific commit to current branch
+git cherry-pick --continue->Continue after resolving conflicts
+git cherry-pick --abort->Cancel cherry-pick
+
+
+
+Git squash is the process of combining multiple commits into a single commit to keep our commit history clean and organized.
+git rebase -i HEAD~N
+
+
+git stash temporarily saves (or “stashes”)  uncommitted changes—both staged and unstaged—so switch branches or pull updates without committing incomplete work
+
+
+git stash -> switch context but keep current work safe without committing it
+Git unstash:git stash pop -> bring your stashed changes back into working directory
+
+
+In Git, non-staged changes are the modifications made in working directory that haven’t yet been added to the staging area, meaning Git is aware of these changes but they are not marked for inclusion in the next commit. In contrast, staged changes are explicitly added to the staging area using git add, signaling that intend to include them in upcoming commit. When comparing these changes, the difference between the last committed version and working directory reflects the unstaged changes, while the difference between the last commit and the staging area reflects the staged changes. Tools like WinMerge can help visually compare these differences, but since Git does not directly integrate with WinMerge to compare staged versus unstaged changes, you typically export the versions you want to compare and open them in WinMerge manually to see the exact differences.
+
+
+
+How change the core editor
+git config --global core.editor "<editor-command>"
+
+check what editor is currently set->git config --global core.editor
+
+
+
+
+
+
