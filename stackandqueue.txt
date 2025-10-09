@@ -1,0 +1,14 @@
+stack:
+LIFO
+push(), pop()
+java.util.Stack
+Undo operations, backtracking
+
+
+
+
+queue:
+FIFO
+add()/offer(), remove()/poll()
+java.util.Queue
+Task scheduling, printing jobs, queues
