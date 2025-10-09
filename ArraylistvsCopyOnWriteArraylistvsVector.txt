@@ -1,0 +1,21 @@
+ArrayList:
+A resizable array implementation of the List interface in Java
+Not thread-safe — multiple threads modifying it at the same time can cause problems
+When iterating, if the list is structurally modified by another thread, it throws a ConcurrentModificationException
+Best used when no need thread safety,when only one thread is accessing or modifying the list
+
+
+CopyOnWriteArrayList:
+A thread-safe variant of ArrayList that works by copying the entire underlying array whenever a modification (like add or remove) occurs.
+Fully thread-safe — multiple threads can safely read it without locking
+Excellent for reads because it doesn’t require synchronization
+Poor for writes, since every modification creates a new copy of the list
+Iterators are snapshot-based, meaning they don’t reflect updates made after the iterator was created — and they never throw ConcurrentModificationException
+Ideal when have many reads and few writes
+
+
+Vector:
+An older (legacy) synchronized version of ArrayList. It implements the List interface but predates the Java Collections Framework
+All methods are synchronized, so it’s thread-safe — but this can make it slower under heavy access.
+Lower performance than ArrayList because every method is locked, even for read operations
+Rarely recommended for new code; kept only for backward compatibility
