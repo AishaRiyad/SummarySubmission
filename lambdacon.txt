@@ -1,0 +1,73 @@
+java designer use interface as a type of lambda instead of new function type because
+1)backward compatibility: when we use interface for lambdas we don't need to rewrite lambdas for the new function path
+because we use lambdas in place of all anonymous inner classes and other signature methods
+
+
+
+The Runnable interface in Java is a functional interface used to represent a task that can be executed by a thread
+and is commonly used in multithreading.
+
+when we want to create thread we make instance of runnable interface and use this instance
+
+Note: Runnable has only one method it works just well with lambda
+
+using lambda to take place of an instance of runnable
+
+Using innerclass:
+public class RunnableEdu {
+   public static void main(String[] args) {
+    Thread thread=new Thread(new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("Running");
+        }
+    });
+
+thread.run();
+
+    }
+}
+
+Using Lambda:
+package org.example;
+
+public class RunnableEdu {
+   public static void main(String[] args) {
+    Thread thread=new Thread(new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("Running");
+        }
+    });
+
+//thread.run();
+
+Thread lambdaThread=new Thread(()->System.out.println("Running"));
+       lambdaThread.run();
+    }
+}
+
+
+to declare interface to be type of lambda it needs to have only one abstract method
+
+Note: In java8 we can write implementation method in interface
+
+Functional Interface: Interface that have only one abstract method and this type
+we use to declare lambda
+
+@FunctionalInterface annotation to make developer know that this functional interface and only have one 
+abstract method
+
+in java8 there is a specific package called functions -> java.util.functions which contain some
+out of the box interfaces
+EX:
+predicate<T> : generic interface represent a predicate  Boolean valued function of one argument
+
+Test is a generic type method and return Boolean the only abstract method (so we can use this interface to implement lambda instead of create new one)
+
+Consumer<T>: take single object as input argument and returns nothing have accept method
+
+
+Catch Exceptions in Lambda:
+
+
