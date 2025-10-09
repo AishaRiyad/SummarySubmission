@@ -1,0 +1,10 @@
+throw:
+Actually throws an exception
+Location Inside a method or block
+This line does throw an exception
+
+
+throws:
+Declares that a method might throw one
+Location In the method signature
+This method might cause an exception
