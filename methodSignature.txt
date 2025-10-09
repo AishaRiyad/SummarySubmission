@@ -1,0 +1,20 @@
+method signature is a unique identifier for a method. It consists of the method name and its parameter list. The method signature helps differentiate one method from another and allows the Java compiler to match method calls with their corresponding definitions.
+
+Components of a Method Signature:
+Method Name
+Parameter List
+
+Important Considerations:
+Return Type
+Access Modifiers
+Modifiers
+Exceptions
+
+Part	                            Included in Signature?
+Method Name	                              Yes
+Parameter Types	                              Yes
+Number of Parameters	                      Yes
+Parameter Order	                              Yes
+Return Type	                              No
+Access Modifier	                              No
+Exceptions Thrown	                      No
