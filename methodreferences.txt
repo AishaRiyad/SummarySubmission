@@ -1,0 +1,6 @@
+A method reference is a shorthand way to refer to a method without having to call it directly.
+It’s like saying, “Use this method here,” instead of writing a full lambda expression.
+
+They’re mostly used with functional interfaces (like Runnable, Consumer, Predicate, etc.) — interfaces that have only one abstract method.
+
+list.forEach(System.out::println);
