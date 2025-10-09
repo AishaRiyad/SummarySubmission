@@ -1,0 +1,79 @@
+is a set of classes and interfaces that provide ready-made data structures to store and manipulate groups of objects efficiently.
+
+Java provides built-in collection classes like List, Set, Map and Queue
+
+Collection Framework improves productivity by making code more reusable, maintainable and faster to develop.
+
+Provides ready-to-use data structures (e.g., ArrayList, HashSet, HashMap).
+
+Offers interfaces (Collection, List, Set, Map, Queue)
+
+Dynamic resizing
+
+Includes algorithms (sorting, searching, iteration)
+
+Improves code reusability and performance by reducing boilerplate code.
+
+Core Interfaces:
+Collection Interface
+List Interface
+Set Interface
+Queue Interface
+Deque Interface
+Map Interface
+
+List Implementations: Lists represent ordered collections that allow duplicate elements
+ArrayList
+LinkedList
+Vector
+Stack
+AbstractList
+AbstractSequentialList
+
+Set Implementations:Sets represent collections of unique elements
+HashSet
+Linked HashSet
+TreeSet
+EnumSet
+SortedSet Interface
+NavigableSet
+ConcurrentSkipListSet
+
+Queue / Deque Implementations:Queues store elements in a FIFO manner
+Abstract Queue
+Priority Queue
+ConcurrentLinked Queue
+Array Deque
+Priority Queue
+
+Map Implementations:Maps store data as key-value pairs where keys are unique
+HashMap
+LinkedHashMap
+TreeMap
+WeakHashMap
+IdentityHashMap
+HashTable
+
+
+Utility and Supporting Classes
+Collections Class
+Iterable interface
+ListIterator
+Enumeration
+Comparator
+Comparable
+
+Concurrency Collections
+ConcurrentHashMap
+CopyOnWriteArrayList
+ConcurrentLinkedQueue
+BlockingQueue (ArrayBlockingQueue, LinkedBlockingQueue )
+
+
+Collections.sort(list to be sorted, comparator)->comparator is an interface
+
+
+
+
+
+
