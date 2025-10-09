@@ -1,0 +1,10 @@
+Generics are used to create such classes, interfaces, and methods with parameters that can operate on different data types along
+
+Generics provide compile-time type safety that allows programmers to catch invalid types at compile time
+
+we can write one generic method that works for any data type, and the compiler figures out the right type when you call it.
+
+Bounded Type Parameters
+we use it when we want to limit what kinds of types can be passed to a generic method or class.
+
+A generic class declaration looks like a non-generic class declaration, except that the class name is followed by a type parameter section.
