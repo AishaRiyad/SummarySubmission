@@ -1,0 +1,2 @@
+Serialization in Java is the process of converting an object into a byte stream (a sequence of bytes)
+we can recreate the object from that byte stream using deserialization
