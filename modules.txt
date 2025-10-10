@@ -1,0 +1,14 @@
+module is a collection of packages with a special file called module-info.java that defines:
+What the module exports (makes accessible to other modules)
+What the module requires (dependencies on other modules)
+
+Encapsulation – Only exported packages are visible to other modules
+Dependency Management – Declares which modules it depends on using require
+Reliable Configuration – Detects missing or conflicting modules at compile-time
+Security – Limits access to internal APIs
+
+
+ex:
+module com.example.app {
+    exports com.example.app;
+}
