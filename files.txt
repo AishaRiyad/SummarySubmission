@@ -1,0 +1,25 @@
+The File class from the java.io package, allows us to work with files.
+
+canRead()->Tests whether the file is readable or not
+canWrite()->Tests whether the file is writable or not
+createNewFile()->Creates an empty file
+delete()->Deletes a file
+exists()->Tests whether the file exists
+getName()->Returns the name of the file
+getAbsolutePath()->Returns the absolute pathname of the file
+length()->Returns the size of the file in bytes
+list()->Returns an array of the files in the directory
+
+
+append mode: add new content at the end of the file
+
+FileWriter - easiest choice for basic text.
+BufferedWriter - better for large text files, because it is faster and supports handy features.
+FileOutputStream - best for binary data (images, audio, PDFs)
+
+
+Scanner - best for simple text and when you want to parse numbers or words easily.
+BufferedReader - best for large text files, because it is faster and reads line by line.
+FileInputStream - best for binary data (images, audio, PDFs) or when you need full control of raw bytes.
+
+
