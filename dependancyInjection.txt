@@ -1,0 +1,25 @@
+design pattern used to reduce tight coupling (class is highly dependent on another class’s implementation) between classes.
+It means giving (injecting) an object’s dependencies from outside rather than creating them inside the class
+
+Constructor Injection
+Pass dependency via constructor
+
+Setter Injection
+Pass dependency using a setter method
+
+Interface Injection
+Interface provides a method to inject dependency
+
+
+instead of this:
+
+  private Student student= new Student(); 
+
+this:
+
+  private Student student;
+
+    // via constructor
+    School(Student student) {
+        this.student = student;
+    }
