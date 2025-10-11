@@ -1,0 +1,11 @@
+Reflection in Java is a runtime mechanism that allows a program to inspect, analyze, and even modify classes, methods, fields, and constructors while the program is running — even if their names were not known at compile time
+
+It’s part of the java.lang.reflect package
+
+Debugging and Testing — tools like JUnit use reflection to run test methods dynamically.
+
+Frameworks — Spring, Hibernate, and many others use reflection to create objects and call methods automatically.
+
+Analyzing Classes — when writing libraries or tools that must work with any class.
+
+Accessing Private Members — bypassing access modifiers (with care).
