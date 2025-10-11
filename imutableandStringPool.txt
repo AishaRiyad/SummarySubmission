@@ -1,0 +1,20 @@
+An immutable object is one whose state cannot be changed after it’s created.
+In Java, the String class is immutable, which means once we create a String, its value cannot be modified.
+
+even if we contact something to string the string doesn't change instead
+a new string object
+
+
+The String Pool is a special memory area inside the Java Heap that stores unique String literals.
+If two strings have the same literal value, they both point to the same object in the pool.
+
+But if we create a new String explicitly:
+the objects different
+
+we can manually add a string to the pool using intern():
+
+intern() checks if the string already exists in the pool:
+
+If yes → returns the reference from the pool.
+
+If no → adds it to the pool.
