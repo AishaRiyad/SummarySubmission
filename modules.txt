@@ -7,6 +7,12 @@ Dependency Management – Declares which modules it depends on using require
 Reliable Configuration – Detects missing or conflicting modules at compile-time
 Security – Limits access to internal APIs
 
+we can declare in metadata of the module:
+-requires:which other modules our module depends on.
+-exports:which packages our module makes available to other modules. Only exported packages are visible externally.
+-opens:for reflection -> we can open a package (to all or to specific modules) so that runtime reflection can access internal types/members.
+-uses:declares that this module consumes a service interface.
+-provides:declares that this module implements/provides an implementation for a service interface.
 
 ex:
 module com.example.app {
