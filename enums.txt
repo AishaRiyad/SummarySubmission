@@ -1,2 +1,14 @@
 special data type that defines a fixed set of constant values
 often used when a variable should only take one value from a limited set
+
+ex:
+private enum Answer {
+  YES {
+    @Override public String toString() {
+      return "yes";
+    }
+  },
+
+  NO,
+  MAYBE
+}
