@@ -1,0 +1,12 @@
+Trees are hierarchical data structures made of nodes connected by edges, with exactly one simple path between any two nodes. A tree has a single root at the top; nodes may have children and a single parent (except the root). Nodes without children are leaves. The depth of a node is its distance from the root; the height of a tree is the maximum depth of any node. Because trees contain no cycles, they’re perfect for representing “is-a/part-of” relationships, directories, UI hierarchies, and many search indexes.
+
+
+In a binary tree, each node has up to two children (left/right). A Binary Search Tree (BST) keeps keys ordered so that all left-subtree keys are smaller and right-subtree keys are larger; this enables search/insert/delete in average O(log n) time. However, if you insert already sorted data without rebalancing, a BST can degenerate into a linked list with O(n) operations. Balanced BSTs (AVL, Red-Black) maintain near-equal subtree heights automatically, keeping operations reliably O(log n) at the cost of small rotations during updates.
+
+
+Tree traversal visits nodes in a defined order. Depth-First Search (DFS) includes preorder (node, left, right), inorder (left, node, right), and postorder (left, right, node). In a BST, inorder yields keys in sorted order. Breadth-First Search (BFS), or level-order, uses a queue to visit nodes by layers from the root downward. These traversals power tasks like evaluation, serialization, or computing properties (sizes, heights, balances).
+
+
+Specialized trees solve specific problems. A heap (usually a binary heap) is a complete binary tree with the heap property (parent ≤ children for a min-heap); it gives fast O(1) access to the min/max and O(log n) inserts/deletes, and is typically stored in an array rather than pointers. Tries (prefix trees) store strings letter by letter for fast prefix lookups and autocomplete. B-trees (and variants like B+-trees) are multiway balanced trees optimized for disks/SSDs, used by databases and filesystems to minimize I/O. Segment trees and Fenwick trees (BITs) support efficient range queries and updates over arrays. For graphs that are trees, algorithms like Lowest Common Ancestor (LCA) (via binary lifting or Euler tour + RMQ) answer ancestor queries in O(1) after preprocessing.
+
+
