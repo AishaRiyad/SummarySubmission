@@ -1,0 +1,9 @@
+The stack is the area of memory that each thread uses to manage active function calls. When a function begins, the runtime creates a stack frame containing things like parameters, return addresses, and local variables. As soon as the function returns, that frame is popped and its memory is automatically reclaimed. Because stack memory is contiguous and managed in a strict last-in, first-out order, it’s extremely fast and cache-friendly. The downside is that stack space is limited and only suitable for small, short-lived data tied directly to a function’s execution.
+
+
+
+The heap is a larger, process-wide pool of memory for data that must outlive a single function call or has a size that isn’t known at compile time. Objects and large data structures are typically allocated on the heap, either manually (e.g., malloc/free, new/delete) or by a garbage collector. Heap allocation is more flexible, but it involves bookkeeping and can be slower. In systems without automatic memory management, incorrect handling leads to leaks, double frees, and use-after-free bugs; in garbage-collected languages, the runtime eventually reclaims unreachable objects.
+
+
+
+A practical thinking about them is lifetime and ownership. If a value is temporary and strictly scoped to the current function, the stack is ideal. If a value must be shared across functions, stored in long-lived structures, or its size varies at runtime, the heap is appropriate. Choosing well improves both safety and performance: stack for small, short-lived temporaries; heap for large, dynamic, or shared data.
