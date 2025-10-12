@@ -1,0 +1,21 @@
+marker interface: An interface with no methods used to tag a class with metadata so libraries/JVM can treat it specially at compile time or runtime (instanceof checks, overload resolution, etc.).
+
+java.io.Serializable:Says objects of this class can be serialized/deserialized by ObjectOutputStream / ObjectInputStream
+
+
+java.lang.Cloneable: Tags that Object.clone() is supported. Without it, clone() throws CloneNotSupportedException. Often avoided in modern code in favor of copy constructors/builders.
+
+
+java.util.RandomAccess: Tags List implementations that support fast indexed access. Algorithms in Collections switch strategies based on it.
+
+
+java.rmi.Remote and java.util.EventListener: Used by their respective frameworks as tags.
+
+
+Marker interfaces:participate in the type system -> we can use them in method signatures, generics bounds, and instanceof.
+
+
+Annotations: are more flexible metadata but don’t affect types.
+
+
+we use a marker interface when type should gate behavior (method overloads, generics, instanceof).
