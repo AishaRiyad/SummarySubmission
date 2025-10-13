@@ -1,0 +1,12 @@
+a record is a special kind of class introduced in Java 14 (preview) and officially added in Java 16. It is a concise way to create immutable data carrier classes, often used to model plain data with minimal boilerplate code.
+
+
+A record is a final, immutable, and transparent class that automatically generates:
+
+-Constructor
+-Getters
+-equals()
+-hashCode()
+-toString()
+
+public record Student(String name, int age) { }
