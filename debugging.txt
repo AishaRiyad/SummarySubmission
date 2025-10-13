@@ -1,0 +1,27 @@
+Debugging is the process of identifying and fixing errors or bugs in the code.
+
+It often involves:
+
+-Reading error messages
+-Tracing variable values step by step
+-Testing small pieces of code independently
+
+
+The most basic (and often most effective) way to debug Java code is to use System.out.println() to print values and check the flow of the program.
+
+
+
+Debugging with IDEs:
+
+ -Set breakpoints to pause the program at specific lines
+ -Step through code line by line
+ -Inspect variable values in real time
+
+
+Debugging Checklist:
+
+ -Read the full error message
+ -Check if all variables are initialized before use
+ -Print variable values to trace the problem
+ -Watch for off-by-one errors in loops and arrays
+ -Comment out sections of code to find bugs
