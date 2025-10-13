@@ -1,0 +1,388 @@
+JUnit 6.0.0 = JUnit Platform + JUnit Jupiter + JUnit Vintage
+
+
+The JUnit Platform is the base or foundation for running tests in Java using JUnit 5.
+
+JUnit Platform: Runs different testing tools on the JVM (Java Virtual Machine).
+Has something called a TestEngine API, which lets developers create their own testing tools or frameworks that can run on JUnit.
+Includes a Console Launcher – a way to run your tests from the command line.
+Offers a Suite Engine – lets you create a custom test suite that can include tests from multiple sources (or engines).
+
+
+
+JUnit Jupiter is the main part of JUnit 5 that let us write and run tests.
+
+
+JUnit Jupiter: includes two main things: 
+1-Programming Model – how you write tests using annotations like @Test, @BeforeEach, etc.
+2-Extension Model – how you add extra behavior to your tests, like custom setup or logging.
+
+JUnit Jupiter comes with its own TestEngine, which is the part that runs the tests on the JUnit Platform (the base system).
+
+JUnit Jupiter = writing + running tests in JUnit 5 -> It works with the JUnit Platform, which knows how to launch it.
+
+
+JUnit Vintage is a part of JUnit 5 that let us run old JUnit 3 and JUnit 4 tests using the new JUnit 5 platform.
+It includes a TestEngine that knows how to run JUnit 3/4 tests.
+We must have JUnit 4.12 or newer on our class path or module path for it to work.
+
+
+JUnit requires Java 17 (or higher) at runtime -> but we can still test code that has been compiled with previous versions of the JDK.
+
+
+
+JUnit 5 Annotations:
+
+@Test -> Marks a method as a test. This is the most common one.
+@ParameterizedTest -> Runs the test multiple times with different inputs.
+@RepeatedTest -> Runs the same test multiple times 
+@TestFactory -> Creates dynamic tests at runtime.
+@TestTemplate -> A template for tests run multiple times with different conditions.
+
+
+Lifecycle Annotations:
+
+@BeforeEach -> Runs before every test method.
+@AfterEach -> Runs after every test method.
+@BeforeAll -> Runs once before all tests in the class (must be static unless using per-class lifecycle).
+@AfterAll -> Runs once after all tests in the class (must be static).
+
+
+Class-Level Configuration
+
+@TestInstance -> Controls test class lifecycle
+@TestMethodOrder -> control the order test methods run in.
+@TestClassOrder -> Controls order of nested test classes.
+@Nested -> Declares a non-static inner class for grouped tests.
+
+
+Naming and Tags:
+
+@DisplayName -> Gives a custom name to a test.
+@DisplayNameGeneration -> Sets a default naming strategy for tests.
+@Tag -> Adds tags to include/exclude tests during runs.
+
+
+Special Control:
+
+@Disabled -> Skips the test or test class (like JUnit 4’s @Ignore).
+@Timeout -> Fails a test if it takes longer than a specified time.
+
+
+Resource Management:
+
+@AutoClose -> Automatically closes a resource after test runs.
+@TempDir -> Injects a temporary directory into the test (for file testing).
+
+
+Extensions:
+
+@ExtendWith -> Adds custom JUnit extensions declaratively.
+@RegisterExtension -> Adds extensions programmatically via a field.
+
+
+Parameterized Tests & Templates (Advanced):
+
+@ParameterizedClass, @BeforeParameterizedClassInvocation, @AfterParameterizedClassInvocation, @ClassTemplate -> Used in more complex setups like parameterized test classes or custom test templates. These are advanced or experimental and not often needed for basic testing.
+
+
+
+Meta-annotations allow us to create custom annotations by combining existing JUnit annotations.
+
+many tests have:
+@Tag("fast")
+@Test
+Doing this in every test method becomes repetitive and messy.
+
+we can combine them into single custom annotation @FastTest
+
+
+
+A container is something that can hold tests or other containers -> A test class that has multiple @Test methods.
+
+
+Test Class:
+Any class (top-level, static inner class, or @Nested class) that contains at least one test method.
+
+Must:
+-Not be abstract
+-Have one constructor
+-Can be a Java record
+
+Test methods ->	Can be package-private (default), not private
+Lifecycle methods -> Same as above
+Test classes ->	Also don’t need to be public, but must not be abstract or private
+
+
+Inheritance in Tests:
+-Fields are inherited
+-Test methods and lifecycle methods are inherited if:
+  -They're not overridden.
+  -Visibility allows it
+
+
+JUnit 5 is written in Java, but it’s designed to be language-agnostic — meaning it works with other JVM languages, like Kotlin.
+
+Since Kotlin is commonly used for asynchronous programming with coroutines, JUnit 5 has added support for testing suspend functions directly in your tests.
+
+A suspend function in Kotlin is a function that can pause and resume without blocking the thread — this is the core of coroutines.
+
+
+Instead of adding @DisplayName to every single test, JUnit allows us to define a naming strategy using:
+
+@DisplayNameGeneration(...)
+
+This tells JUnit how to generate display names automatically.
+
+Standard	        Keeps method names as-is (default)
+Simple	                Like Standard but removes () from method names
+ReplaceUnderscores	Turns _ into spaces → test_user_login becomes test user login
+IndicativeSentences	Builds test names like sentences using class and method names
+
+
+
+Assertions:
+
+Assertions are statements that check if the code produces the expected result. If the check fails, JUnit fails the test and shows an error in your test report.
+
+org.junit.jupiter.api.Assertions
+
+
+Assertion Methods:
+
+assertEquals(expected, actual) -> Passes if expected == actual
+assertNotEquals(expected, actual) -> Passes if expected != actual
+assertTrue(condition) -> Passes if condition is true
+assertFalse(condition) -> Passes if condition is false
+assertNull(value) -> Passes if value is null
+assertNotNull(value) -> Passes if value is not null
+assertThrows(Exception.class, code) -> Passes if code throws expected exception
+assertAll(label, assertions...) -> Runs multiple assertions together and shows all failures
+assertTimeout(duration, code) -> Passes if code finishes before the time runs out
+assertTimeoutPreemptively(duration, code) -> Like above but uses a separate thread
+
+
+
+with lambda:
+assertTrue(value > 0, () -> "Expected positive but got " + value);
+
+
+
+3rd Party Assertion Libraries:
+
+Hamcrest -> assertThat(value, is(equalTo(3)))
+AssertJ -> assertThat(list).contains("A")
+Truth -> assertThat(value).isEqualTo(42)
+
+
+
+
+Assumptions:
+Assumptions are conditions that must be true for a test to be meaningful.
+  -If the assumption passes, the test continues normally.
+  -If the assumption fails, the test is skipped (aborted), not marked as failed.
+
+
+Using assumptions:
+
+ -The test only makes sense under certain conditions
+ -testing behavior that depends on a resource or configuration
+ -testing in different environments
+
+org.junit.jupiter.api.Assumptions
+
+
+
+Assumption Methods:
+
+-assumeTrue(condition) -> Skips the test if the condition is false
+-assumeTrue(condition, message) -> Same as above, with custom skip message
+-assumingThat(condition, executable) -> Runs part of the test only if condition is true
+-assumeFalse(condition) -> Skips the test if condition is true
+-assumeFalse(condition, message) -> Same, with custom message
+
+
+
+Exception Handling in JUnit Jupiter:
+
+JUnit Jupiter (JUnit 5) has built-in support for dealing with exceptions during testing.
+It helps to handle:
+ 
+-Tests that fail because of unexpected exceptions
+-Tests that check for specific expected exceptions
+-Tests that confirm no exceptions are thrown
+-difference between assertions, assumptions, and real exceptions
+
+
+Writing throws Exception in test method’s signature does not tell JUnit to expect that exception.
+It only means the method can throw it — JUnit will still fail the test if it actually does.
+
+
+Sometimes we want an exception to happen — because testing the program’s error handling -> JUnit provides two methods for that:
+
+ 1)assertThrows() -> Used when expect an exception of a certain type or any of its subclasses , It also returns the thrown exception, so we can test its message or other details.
+
+ 2)assertThrowsExactly() -> Used when expect exactly one specific exception type, not its subclasses , Useful for very strict exception checking
+
+
+Asserting That No Exception is Expected:
+
+Sometimes we want to make sure a method runs without throwing any exception -> we can explicitly test that using assertDoesNotThrow().
+
+
+
+Disabling Tests:
+JUnit allows us to temporarily disable test classes or individual test methods using the @Disabled annotation.
+
+This is very useful when:
+
+ -waiting for a bug to be fixed
+ -still implementing a feature
+ -A test depends on something not yet ready
+
+
+When a test is disabled, JUnit skips its execution.
+
+
+
+Disabling Entire Classes or Individual Methods:
+We can use @Disabled in two ways:
+
+ -At the class level -> If we put @Disabled on a test class, all test methods inside that class will be skipped automatically.
+ -At the method level -> If we only want to disable one specific test, apply @Disabled on that method.
+
+
+When Test Disabled:
+
+-The test is not executed at all.
+-Its method-level lifecycle callbacks (@BeforeEach, @AfterEach) are not called.
+-But the class is still instantiated, and class-level callbacks (@BeforeAll, @AfterAll) can still run.
+
+
+Inheritance Behavior: @Disabled is not inherited. -> the subclass will not automatically be disabled -> If we also want the subclass disabled, you must redeclare @Disabled on it.
+
+
+
+Conditional Test Execution:
+JUnit Jupiter allows developers to enable or disable specific tests automatically based on certain conditions — such as the operating system, Java version, environment variables, or even your own custom logic.
+
+This is handled using the ExecutionCondition API and several built-in annotations found in the org.junit.jupiter.api.condition package.
+
+
+-The JUnit engine checks all registered ExecutionConditions before running a test.
+-If any one condition returns “disabled,” the test or test class is skipped
+-If a class is disabled, all its tests are automatically disabled too.
+-If a method is disabled: The test method and its @BeforeEach / @AfterEach methods are not executed , But class-level @BeforeAll / @AfterAll methods can still run.
+
+
+Operating System and Architecture Conditions: We can run or skip tests depending on the operating system or CPU architecture.
+
+Java Runtime Environment (JRE) Conditions: We can enable or disable tests for specific Java versions.
+
+
+Tagging and Filtering:
+
+JUnit Jupiter allows us to categorize tests using tags, which makes it easier to organize, select, and filter which tests to run. -> using the @Tag annotation.
+
+
+A tag is simply a label you assign to a test class or test method.
+We can think of it like a hashtag — it helps group related tests together.
+
+
+We can apply @Tag to: A class → all tests in that class inherit the tag , An individual test method → only that specific test has the tag
+
+we can filter which tests to run using build tools or IDE settings.-> mvn test -Dgroups=fast
+
+
+Test Execution Order:
+
+By default, JUnit Jupiter runs tests using a deterministic but non-obvious order.
+That means:
+
+-The order of test execution will always be the same across runs.
+
+-But it’s not alphabetical or predictable — to discourage writing tests that depend on order.
+
+This ensures repeatable builds while keeping tests independent.
+
+
+sometimes we may need to control order:
+
+-Integration tests that build on previous state.
+-Tests that must run in a particular setup sequence.
+
+
+Method Order:
+
+By default, test methods inside a class run in a deterministic but unspecified order -> If we need to control it, we can use the annotation:
+
+This tells JUnit which MethodOrderer to use to sort test methods.
+
+
+Class Order:
+
+By default, test classes (like test files) also run in a deterministic but unspecified order -> If we need to control how test classes run relative to each other, JUnit Jupiter uses the ClassOrderer interface.
+
+
+
+Test Instance Lifecycle:
+
+JUnit Jupiter defines how often a test class instance (object) is created during test execution.
+
+
+
+Nested tests:
+
+@Nested tests help us create a hierarchical test structure using inner (non-static) classes.
+
+
+@Nested Tests
+
+To make tests more readable and organized.
+
+To show logical relationships or different states of an object.
+
+To reuse setup code between parent and child test groups.
+
+To group related tests under a meaningful description.
+
+
+
+Outer test class (TestingAStackDemo) describes the overall object or feature.
+
+Nested inner classes (like WhenNew and AfterPushing) describe specific states or scenarios.
+
+Lifecycle methods (@BeforeEach, @AfterEach) from outer classes apply to all inner classes below them.
+
+
+
+
+
+JUnit also supports combining @Nested with parameterized tests (@ParameterizedClass and @ParameterizedTest).
+
+
+Annotation	           @Nested
+Purpose	                   Group related tests hierarchically
+Allowed Classes	           Only non-static nested classes
+Lifecycle Support	   Each level supports @BeforeAll, @AfterAll, etc.
+Benefits	           Clean structure, readable hierarchy, shared setup
+Interoperability	   Works with @ParameterizedTest, @ValueSource, etc.
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
