@@ -1,0 +1,104 @@
+Maven:
+
+maven is an xml-based build tool and project manager 
+maven is an apache open-source project 
+maven default repository is -> Maven Central Repository
+
+this repository consists of open-source components from contributors
+
+there is a vast array of maven plugins to customize and expand the build tool's functionality
+
+maven projects defined by project object model a.k.a pom files written in xml
+
+the pom.xml files contain the project's dependencies , plugins , properties
+and configuration data 
+
+maven uses a declarative approach and has a predefined lifecycle
+
+
+
+Gradle:
+
+it building on maven concepts
+
+it introduces as maven successor. rather than using maven's xml-based project configeration 
+
+it introduced a domain specific language a.k.a DSL based
+
+gradle supports maven and lvy repositories for declaring project configurations.
+
+it was designed with multi-project builds in mind.
+
+
+
+
+both maven and gradle are free and open-sourcs software distributed under the apache license 2.0.
+
+both are highly customizable and supported by various java IDEs.
+
+the both provide a functionality to add plugins , they possess the same directory structure and both resolve dependencies from configurable repositories.
+
+
+differences:
+
+gradle's build script is inherntly more versatile and powerful than maven's. because gradle is based on groovy programming language.
+
+maven's is based on xml markup language.
+
+gradle's build script is vulnerable to bugs since it's based on a programming language.
+
+gradle implements strategies such as build cache and incremental compilations to enable fast performance.
+
+gradle claims that it runs up to seven times faster than maven for incremental changes, and three times faster when task outputs are cached.
+
+there are developers out there who find maven the faster of the two.
+
+even if both support parallel execution of multi-module builds. gradle stands out for its use of incremental builds.
+
+it achieves this by checking the status of tasks and skipping any aren't updated, resulting in shorter build times.
+
+gradle's groovy-based build script offers more immediate flexibility than maven's xml. 
+
+for instance, we can write plugin customizations directly into gradle's build script.
+
+
+gradle is also more powerful when we want to customize build artifacts and project structure.
+
+while maven also highly customizable, its xml-based configuration reqires a few extra steps to customize the build.
+
+maven has been around longer than gradle.
+
+for that reason, there are more maven plugins available, and more major vendors support maven plugins than gradle plugins.
+
+the two build tools use different approaches to resolve dependency conflicts.
+
+maven follows a declaration order, while gradle references a dependency tree.
+
+choosing a java build tool is largely uup to invidual preferences and project requirements.
+
+if we're working on large projects, gradle might perform better and faster than maven.
+
+if we mainly handle smaller projects, the difference in maven's performance can be script easily permits cusomization if our project needs lots of bells and whistles.
+
+maven might suffciently meet our needs if we don't mind the steps involved in adding functionalities to its xml-based script.
+
+on top of that , gradle is known to have a steep learning curve, even for seasoned build engineers.
+
+this learning curve worthy investmentof time and energy if you know gradle will be will be the right long-term fit for you.
+
+however, it may be an unnecessary uphill battle to learn gradle if maven can adequately meet our needs.
+
+also, maven's community was already established befor gradle entered the stage.
+
+maven may better meet our needs if community support and documentation is important to us.
+
+choosing a build tool will depend on invividual needs.
+
+for both devops and software developers, java build tools like maven and gradle are invaluable utilities.
+
+since both are free, consider trying both before making an informed decision.
+
+
+
+
+
