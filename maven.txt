@@ -1,0 +1,84 @@
+Maven is a Java tool, so we must have Java installed in order to proceed.
+
+mvn --version -> this command should print out the installed version of Maven
+
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false
+
+Ran mvn archetype:generate to create a new project from the quickstart archetype.
+archetype = a template provided by a plugin (plugins have many goals).
+
+Building jar: C:\Users\T-Aesha.AbuJeeb\Desktop\maven-project\my-app\target\my-app-1.0-SNAPSHOT.jar
+
+
+The src/main/java directory contains the project source code, the src/test/java directory contains the test source, and the pom.xml file is the project's Project Object Model, or POM.
+
+
+pom.xml file:
+
+<groupId>com.mycompany.app</groupId> -> "namespace" (usually a reversed domain)
+<artifactId>my-app</artifactId> -> The project/module name (also becomes the JAR name)
+<version>1.0-SNAPSHOT</version> -> -SNAPSHOT = changing/dev build , it's not a release version
+
+<properties>:
+  -project.build.sourceEncoding -> ensures UTF-8 everywhere
+  -maven.compiler.release -> pins Java level (here Java 17) for both compile & target.
+
+<dependencyManagement> -> Imports the JUnit BOM so we don’t need to specify versions for JUnit deps below.
+
+<dependencies>:
+  -junit-jupiter-api (and optional …-params) for writing JUnit 5 tests.
+   (We can also add junit-jupiter-engine explicitly, but modern Surefire pulls it via the BOM.)
+
+
+<build><pluginManagement> -> A place to pin plugin versions. Inside plugins here you’d lock versions (compiler, surefire, jar, etc.), then reference them from child modules or <build><plugins>.
+
+
+Ran mvn archetype:generate to create a new project from the quickstart archetype.
+
+archetype = a template provided by a plugin (plugins have many goals).
+
+
+mvn package runs a lifecycle phase (not a single goal).
+When you run a phase, Maven executes all earlier phases up to it.
+Example up to compile: validate → generate-sources → process-sources → generate-resources → process-resources → compile.
+
+
+After packaging -> java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+
+Maven Phases
+Although hardly a comprehensive list, these are the most common default lifecycle phases executed.
+
+validate: validate the project is correct and all necessary information is available
+compile: compile the source code of the project
+test: test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed
+package: take the compiled code and package it in its distributable format, such as a JAR.
+integration-test: process and deploy the package if necessary into an environment where integration tests can be run
+verify: run any checks to verify the package is valid and meets quality criteria
+install: install the package into the local repository, for use as a dependency in other projects locally
+deploy: done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.
+
+
+Other lifecycles:
+
+clean – remove previous build output
+
+site – generate project site/docs
+
+
+Phases map to goals depending on packaging
+
+
+chain phases & goals -> mvn clean dependency:copy-dependencies package
+
+Generate site docs -> mvn site
+
+
+mvn test -> tests run successfully (JUnit 5).
+mvn package -> BUILD SUCCESS, produced target/my-app-1.0-SNAPSHOT.jar
+
+ 
+
+
+
+
+ 
