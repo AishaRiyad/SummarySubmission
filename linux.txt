@@ -1,0 +1,242 @@
+man ls	Shows the manual for the ls command (lists files).
+man cd	Shows info about the cd command (change directory).
+man mkdir	Explains how to create directories.
+man grep	Opens the manual for searching text with grep.
+
+pwd -> print working directory
+
+cd -> Change Directory
+
+cd folder_name -> Move into a folder inside the current one.
+cd .. -> Move up one level (to the parent folder).
+cd / -> Go to the root directory.
+cd ~ or just cd	-> Go to home directory.
+cd - ->	Go back to the previous directory we were in.
+
+ls -> list files and directories
+
+
+ls -> Lists files and folders in the current directory.
+ls folder_name	-> Lists contents of a specific folder.
+ls -l	-> Shows detailed info (permissions, owner, size, date).
+ls -a	-> Shows all files, including hidden ones (those starting with .).
+ls -lh -> Shows detailed info with human-readable sizes (KB, MB, etc.).
+ls -R	-> Lists all files recursively (inside all subfolders).
+
+
+mkdir [directory_name] -> Creates a new folder (directory)
+
+mkdir myfolder	-> Creates a folder named myfolder in the current directory.
+mkdir Documents/Projects -> Creates a folder called Projects inside Documents.
+mkdir -p path/to/folder ->	Creates multiple nested directories (parents) if they don’t exist.
+
+
+rmdir [directory_name] -> remove directory
+
+rmdir test ->	Removes the directory named test (if it’s empty).
+rmdir folder1 folder2	-> Removes multiple empty directories at once.
+rmdir -p path/to/folder	-> Removes a directory and its parent directories, but only if all are empty.
+
+
+
+file [filename] -> what type of file
+
+file notes.txt	Shows if it’s plain text, UTF-8, etc.
+file photo.jpg	Identifies image type (JPEG, PNG, etc.).
+file script.sh	Tells if it’s a shell script, executable, etc.
+file /bin/ls	Shows that it’s a compiled ELF binary (an executable file).
+
+
+touch [filename] -> Creates a new empty file, OR Updates the timestamp of an existing file.
+
+touch file.txt	Creates a new empty file named file.txt.
+touch notes.txt report.txt	Creates multiple empty files at once.
+touch -c file.txt	Updates timestamp only if file exists (doesn’t create a new one).
+touch -t 202510161230 file.txt	Sets a custom timestamp (YYYYMMDDhhmm).
+
+
+rm [options] [file(s)/directory] -> Deletes files or directories from your system
+
+
+rm file.txt	Deletes a single file.
+rm file1 file2 file3	Deletes multiple files.
+rm -r foldername	Deletes a directory and all its contents (recursive).
+rm -rf foldername	Deletes a directory and all inside it without asking for confirmation.
+rm -i file.txt	Interactive mode — asks “Are you sure?” before deleting.
+
+
+cp [options] source destination -> Copies files or directories from one place to another
+
+cp file1.txt file2.txt	Copies file1.txt → creates file2.txt.
+cp file.txt /home/aisha/Documents/	Copies file into the Documents folder.
+cp -r folder1 folder2	Copies a directory (and all its contents).
+cp -i file.txt backup.txt	Asks before overwriting an existing file.
+cp -v file.txt /home/aisha/Desktop/	Shows what’s being copied (“verbose”).
+
+
+
+mv [options] source destination -> Moves or renames files and directories.
+
+
+mv file.txt /home/aisha/Documents/	Moves file.txt into the Documents folder.
+mv file1.txt file2.txt	Renames file1.txt → file2.txt.
+mv folder1 folder2	Renames or moves a folder.
+mv -i file.txt /folder/	Prompts before overwriting.
+mv -v file.txt /folder/	Shows what’s being moved (“verbose”).
+
+
+head [options] [filename] -> Displays the first few lines of a file
+
+head file.txt	Shows the first 10 lines of file.txt.
+head -n 5 file.txt	Shows the first 5 lines.
+head -n 20 file.txt	Shows the first 20 lines.
+head file1.txt file2.txt	Shows the first 10 lines of both files.
+
+
+tail [options] [filename] -> Displays the last few lines of a file
+
+tail file.txt	Shows the last 10 lines of file.txt.
+tail -n 5 file.txt	Shows the last 5 lines.
+tail -n 20 file.txt	Shows the last 20 lines.
+tail -f file.txt	Follows a file in real time (great for logs).
+
+
+cat [options] [filename] -> Used to view, create, combine, or copy text files directly from the terminal.
+
+cat file.txt	Displays the contents of a file.
+cat file1.txt file2.txt	Displays both files, one after another.
+cat > file.txt	Creates a new file and lets us type into it. 
+cat file1.txt > file2.txt	Copies contents of file1.txt into file2.txt.
+cat file1.txt >> file2.txt	Appends contents of file1.txt to the end of file2.txt.
+cat -n file.txt	Displays file content with line numbers.
+
+
+echo [text or variable] -> Prints (or “echoes”) text or values of variables to the terminal.
+
+
+echo Hello	Prints “Hello” on the screen.
+echo "Hello, World!"	Prints text with spaces and punctuation.
+echo $USER	Prints the current username (environment variable).
+echo $HOME	Prints the home directory path.
+echo "Today is $(date)"	Prints text plus the output of another command.
+echo -n "Hello"	Prints without a newline (no line break at the end).
+echo -e "Hello\nWorld"	Prints with escape characters (like newlines, tabs, etc.).
+
+
+more [filename] -> Displays the contents of a text file one screen at a time
+
+more file.txt	Opens the file and shows one screen of text at a time.
+more -n 20 file.txt	Sets the screen size to 20 lines.
+
+
+
+less [filename] -> view (but not edit) large text files
+
+less file.txt	Opens file.txt in the viewer.
+`ls -l	less`
+less +F logfile.txt	Follows file updates in real time (like tail -f).
+
+
+
+uptime -> Shows how long the system has been running, how many users are logged in, and the system’s average CPU load.
+
+
+
+free	Shows memory info in bytes.
+free -k	Shows memory info in kilobytes.
+free -m	Shows memory info in megabytes.
+free -g	Shows memory info in gigabytes.
+free -h	Shows memory info in human-readable format (recommended).
+
+
+
+ps [options] -> ps	Shows current shell’s running processes.
+ps -e	Shows all running processes.
+ps -ef	Shows all processes in full format (detailed).
+ps aux	Shows all processes with CPU and memory usage.
+ps -u aisha	Shows all processes owned by the user.
+
+
+
+df [options] -> Displays how much disk space is used and available on all mounted filesystems
+
+
+df	Shows disk usage in 1K blocks (default).
+df -h	Shows sizes in human-readable format (KB, MB, GB).
+df -T	Also shows the filesystem type (ext4, tmpfs, etc.).
+df -a	Includes all filesystems, even system ones.
+df -i	Shows inode usage instead of disk space (useful for checking file limits).
+
+
+
+sudo fdisk -l	Lists all disks and partitions on the system. (Safe to run!)
+sudo fdisk /dev/sda	Opens interactive mode to manage the main disk.
+sudo fdisk /dev/sdb	Opens another disk (like a USB drive).
+
+
+
+lsblk	Shows all connected block devices and their mount points.
+lsblk -f	Adds filesystem info (type, label, UUID).
+lsblk -a	Lists all devices, even empty ones.
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT	Custom columns for cleaner output.
+
+
+
+top	Basic text-only process monitor
+htop	Advanced, colorful, and interactive monitor
+ps	Static snapshot of processes
+
+
+
+ifconfig	Shows all active network interfaces.
+ifconfig -a	Shows all interfaces, even inactive ones.
+ifconfig eth0	Shows details for a specific interface (eth0, wlan0, etc.).
+sudo ifconfig eth0 up	Activates a network interface.
+sudo ifconfig eth0 down	Disables a network interface.
+sudo ifconfig eth0 192.168.1.10 netmask 255.255.255.0	Manually assigns an IP address.
+
+
+
+
+ip addr or ip a	Shows all network interfaces and IP addresses (replaces ifconfig).
+ip link	Shows or configures network links (interfaces).
+ip route or ip r	Displays or manages routing table (replaces route).
+ip neigh	Shows neighbor (ARP) table (replaces arp).
+ip link set [dev] up/down	Activates or deactivates an interface.
+sudo ip addr add 192.168.1.10/24 dev eth0	Assigns a new IP address manually.
+sudo ip addr del 192.168.1.10/24 dev eth0	Removes an IP address.
+
+
+sudo apt update  Run apt update with admin rights.
+sudo reboot	Reboot the system as admin.
+sudo nano /etc/hosts	Edit a protected system file.
+sudo rm -rf /folder	Delete protected files.
+
+
+
+
+sudo apt update 	Updates the list of available packages (from repositories).
+sudo apt upgrade	Installs the latest versions of installed software.
+sudo apt install [package_name]	Installs a new package.
+sudo apt remove [package_name]	Removes an installed package.
+sudo apt purge [package_name]	Removes a package and its configuration files.
+sudo apt autoremove	Removes unused dependencies.
+apt list --installed	Lists all installed packages.
+apt show [package_name]	Shows details about a package.
+
+
+
+nano file.txt	Opens (or creates) file.txt for editing.
+sudo nano /etc/hosts	Opens a system file (requires admin rights).
+nano +15 file.txt	Opens file.txt and places the cursor on line 15.
+
+
+vim [filename] -> vim is an advanced text editor used for editing code, configuration files, and any kind of text — directly from the terminal.
+
+
+
+
+
+
+
+
