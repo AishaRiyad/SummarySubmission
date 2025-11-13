@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: demo2
+
+data:
+  mongodb:
+    uri: mongodb://localhost:27017/EmployeeDB
+
+server:
+  port: 8080
