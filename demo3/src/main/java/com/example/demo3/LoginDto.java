@@ -1,0 +1,14 @@
+package com.example.demo3;
+
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class LoginDto {
+    @NotBlank
+    private String usernameOrEmail;
+
+    @NotBlank
+    private String password;
+}
