@@ -1,0 +1,82 @@
+Postman is a tool that let us send requests to APIs and see the responses.
+remote control for your backend.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. Executing REST APIs in Postman
+
+REST APIs use methods like:
+-GET → get data
+-POST → add new data
+-PUT → update data
+-DELETE → remove data
+
+Postman shows:
+-status code (200, 201, 404…)
+-response body
+-headers
+-time
+
+It’s like trying backend without making a frontend.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Postman Collections & Variables
+
+Collections -> a folder that stores API requests.
+
+Example collection:
+
+Employee API
+  ├── Get All Employees (GET)
+  ├── Create Employee (POST)
+  ├── Update Employee (PUT)
+  └── Delete Employee (DELETE)
+
+This helps organize API tests.
+
+
+
+Variables -> Variables let us store values instead of typing them again.
+
+Examples:
+-{{baseUrl}} = http://localhost:8080
+-{{employeeId}} = 5
+
+
+Then URL becomes:
+{{baseUrl}}/api/employees/{{employeeId}}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Postman for API Testing
+
+Postman is not only for sending requests — we can also write tests.
+
+Example:
+After sending a request, Postman can automatically check:
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+
+We can test:
+-response time
+-response body
+-headers
+-status code
+-error messages
+
+This makes API testing fast and automatic.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
