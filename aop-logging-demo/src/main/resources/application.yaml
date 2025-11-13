@@ -1,0 +1,28 @@
+logging:
+  level:
+    com.example.aopdemo: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: ERROR
+
+spring:
+  application:
+    name: aop-logging-demo
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+          # show_sql: true
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+
+  server:
+    port: 8080
