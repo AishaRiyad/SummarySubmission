@@ -1,0 +1,23 @@
+Swagger (OpenAPI) is a UI that shows APIs in a clean and interactive page.
+
+If we use Spring Boot + Swagger:
+We get an auto-generated documentation page like: http://localhost:8080/swagger-ui/index.html
+
+It shows:
+-all API endpoints
+-descriptions
+-request/response examples
+-ability to try the API directly in the browser (like Postman)
+
+
+Swagger is useful:
+-Developers can understand the API
+-Can test API without Postman
+-Backend team and mobile/web team communicate easily
+-Documentation updates automatically when code changes
+
+
+Swagger = API documentation + live testing tool
+
+
+
