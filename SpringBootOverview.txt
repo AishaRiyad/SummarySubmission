@@ -1,0 +1,138 @@
+Spring’s superpower is Dependency Injection (DI) -> letting Spring create objects and wire them together so the code is loosely coupled, easier to change, and easier to test.
+
+Tight vs loose coupling: Don’t hard-code one class to depend on another (e.g., BinarySearch directly using BubbleSort). Instead, depend on an interface (e.g., SortAlgorithm).
+
+Let the Spring do the wiring:
+ -Mark classes to manage: @Component
+ -Ask Spring for a dependency: @Autowired
+
+Constructor/Setter injection: Two ways to give a class its dependencies.
+
+Spring Scans packages, finds @Components, creates them (beans), and injects dependencies for us.
+
+Spring is popular because : Modular, battle-tested, huge ecosystem.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Autowiring rules:
+By type, then by name, then fallbacks like @Primary or @Qualifier("bubble").
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Bean scope:
+-singleton (default, one per app)
+-prototype (new one each time you ask)
+-We can inject a prototype into a singleton using a proxy if needed.
+
+Component scanning:Tell Spring which packages to scan.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Bean lifecycle:
+-@PostConstruct runs after bean creation; @PreDestroy before shutdown.
+
+
+CDI equivalents: @Named, @Inject (Jakarta standard annotations).
+
+Without Spring Boot: We can run pure Spring using AnnotationConfigApplicationContext.
+
+XML config:Older style—define beans in applicationContext.xml.We can mix XML and annotations.
+
+Stereotypes:@Component, @Service, @Repository, @Controller all create beans; the names hint at the layer.
+
+External config: @PropertySource + @Value("${...}") to read values from app.properties.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Unit testing with Spring & Mockito:
+-With a Java config or XML:load a Spring context in tests using @ExtendWith(SpringExtension.class) and @ContextConfiguration.
+
+-Mockito: Replace real dependencies with mocks.
+   _@Mock makes a fake; @InjectMocks puts the fake into the class.
+  _Stub behavior (when(...).thenReturn(...)) and assert results.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Spring Boot in 10 steps (make real apps fast):
+-Boot’s goal: Production-ready apps quickly (embedded server, health, metrics, auto-config).
+-Initializr: Generate a project in seconds.
+-REST controller: @RestController, @GetMapping return JSON with almost no setup.
+-Auto-configuration: Boot looks at the classpath and configures sensible defaults.
+-Starters: One dependency brings a whole feature set (web, data-jpa, security, test, etc.).
+-Actuator: Health, metrics, info endpoints.
+-DevTools: Auto-reload during development.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+AOP (cross-cutting concerns):
+-What/why: Add behaviors like logging, security checks, and timing around methods without touching business code.
+-Key words:Aspect (the thing you add), Advice (when it runs: before/after/around), Pointcut (where it runs).
+-Common use:@Before to check access, @AfterReturning to log results, @Around to time execution.
+-Reusable pointcuts: Put expressions in a shared class.
+-Custom annotations: e.g., @TrackTime to time only marked methods.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Data with JDBC & JPA
+-Starting with H2 (in-memory DB): Easy dev database. Enable the console, create a table via data.sql.
+-Spring JDBC (JdbcTemplate):
+  -Query: jdbcTemplate.query(...) → map rows to objects (RowMapper),
+  -Update/Insert/Delete: jdbcTemplate.update(...).
+
+
+JPA (EntityManager):
+-Annotate entity with @Entity,
+-Use entityManager.find/merge/remove,
+-Named queries for findAll.
+
+Spring Data JPA:interface Repo extends JpaRepository<Person, Integer> give us CRUD for free.
+
+Switch DBs (e.g., MySQL): Change dependency + application.properties.
+ -spring.jpa.hibernate.ddl-auto controls schema creation/updates (none, validate, update, create, create-drop).
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Basic Web App & Spring MVC:
+-Servlets & JSP: Old-school flow to understand HTTP, forms, request params, request attributes.
+-Move to Spring MVC:
+  -Add DispatcherServlet, a controller (@Controller + @RequestMapping),
+  -Return a view name, resolved to a JSP by the ViewResolver,
+  -Use ModelMap + @RequestParam to pass data to JSP,
+  -Validate login via a @Service and inject it with @Autowired.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Tiny glossary:
+-@Component/@Service/@Repository/@Controller: Make a class a Spring bean (managed object).
+-@Autowired: Ask Spring to inject a dependency.
+-@Primary/@Qualifier("name"): Pick which bean to inject when several match.
+-@Scope("singleton"/"prototype"): How many instances Spring creates.
+-@PostConstruct/@PreDestroy: Lifecycle hooks.
+-@RestController: Controller that returns JSON.
+-@GetMapping("/path"): Map HTTP GET to a method.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Mental model with your BinarySearch example:
+-Define an interface SortAlgorithm.
+-Implement BubbleSortAlgorithm and QuickSortAlgorithm.
+-Inject one into BinarySearchImpl via @Autowired.
+-If both exist, pick one with @Primary or @Qualifier("quick").
+-Now we can swap algorithms without changing BinarySearchImpl.
+
+
+
+
+

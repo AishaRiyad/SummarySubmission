@@ -1,0 +1,104 @@
+What They All Have in Common?
+All four annotations are used to tell Spring: This class is a Spring-managed component — please create and manage an object (Bean) for me 
+
+Spring scans the project, finds these annotations, and automatically adds them to the ApplicationContext so we can inject them using @Autowired.
+
+------------------------------------------------------------------------------------------------------------------------------
+
+1)@Component -> The Generic One
+
+-It’s the base annotation.
+-Used for any general-purpose class that you want Spring to manage.
+-It doesn’t belong to a specific layer (like service or repository).
+
+Example:
+
+@Component
+public class EmailValidator {
+    public boolean isValid(String email) {
+        return email.contains("@");
+    }
+}
+This is a helper or utility class managed by Spring.
+
+-------------------------------------------------------------------
+
+2)@Service -> Business Logic Layer
+
+-Used for classes that contain business logic — the "service layer" of the application.
+-It tells others (and Spring) that this class performs main operations or calculations.
+
+Example:
+
+@Service
+public class UserService {
+    public void registerUser(String name) {
+        System.out.println("User registered: " + name);
+    }
+}
+This class performs business operations or handles main app logic.
+
+-------------------------------------------------------------------
+
+3)@Repository — Data Access Layer
+
+-Used for database-related classes, usually those interacting with JPA, JDBC, or ORM frameworks.
+-It tells Spring that this class handles data persistence.
+
+Example:
+
+@Repository
+public class UserRepository {
+    public void saveUser(String name) {
+        System.out.println("Saving user to database: " + name);
+    }
+}
+This class talks to the database.
+
+Spring automatically converts database exceptions into Spring’s DataAccessException — so we don’t deal with raw SQL errors.
+
+-------------------------------------------------------------------
+
+4)@Controller -> Web Layer
+
+-Used for web controllers that handle HTTP requests and responses in a Spring MVC application.
+-It’s part of the presentation layer (user interaction).
+
+Example:
+
+@Controller
+public class UserController {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/register")
+    public String registerUser(Model model) {
+        userService.registerUser("Aisha");
+        model.addAttribute("message", "User registered successfully!");
+        return "success"; 
+    }
+}
+This class handles web requests (like when users click a button or open a page)
+
+----------------------------------------------------------------------------
+
+5)@RestController
+
+-Used in REST APIs (not web pages).
+-It’s basically @Controller + @ResponseBody.
+-It returns data (like JSON) instead of a web page.
+
+Example:
+
+@RestController
+public class UserApiController {
+    @GetMapping("/api/user")
+    public String getUser() {
+        return "Aisha";
+    }
+}
+This controller returns data (like JSON) instead of HTML pages
+

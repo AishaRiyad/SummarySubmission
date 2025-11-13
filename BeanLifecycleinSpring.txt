@@ -1,0 +1,135 @@
+When we create an object (bean) in Spring, it doesn’t just appear and disappear.
+It goes through a series of steps — from creation to destruction — all managed by the Spring Container.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Bean Life Cycle Phases:
+1-Container Started → Spring Container (IoC) starts.
+2-Bean Instantiated → Spring creates an object of the class.
+3-Dependencies Injected → All @Autowired or XML-defined dependencies are given to the bean.
+4-Initialization (init) → Any setup code we want to run after creation (like @PostConstruct, afterPropertiesSet(), or init-method).
+5-Bean Ready → Now the bean is ready to be used in the app.
+6-Custom Methods → We can call our own business methods here.
+7-Destruction (destroy) → When the container is closed, cleanup code runs (like @PreDestroy, destroy(), or destroy-method).
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Three Ways to Implement Bean Life Cycle
+
+1. Using XML Configuration
+
+-Create the bean class.
+package beans;
+
+public class HelloWorld {
+    public void init() { 
+        System.out.println("Bean created — init() method called"); 
+    }
+
+    public void destroy() { 
+        System.out.println("Container closed — destroy() method called"); 
+    }
+}
+
+
+
+-Configure the Spring XML File
+
+<bean id="hw" class="beans.HelloWorld"
+      init-method="init" destroy-method="destroy"/>
+
+
+-We need to create a driver class to run this bean.
+
+ConfigurableApplicationContext ctx =
+    new ClassPathXmlApplicationContext("resources/spring.xml");
+ctx.close();
+
+
+
+-Output:
+
+Bean created — init() method called
+Container closed — destroy() method called
+
+
+
+
+2-Using Interfaces:
+
+We can use Spring’s built-in interfaces.
+
+we implement the InitializingBean and DisposableBean interfaces
+
+InitializingBean -> runs code after bean is created
+DisposableBean -> runs code before bean is destroyed
+
+
+Create the Bean Class:
+
+package beans;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.DisposableBean;
+
+public class HelloWorld implements InitializingBean, DisposableBean {
+    public void afterPropertiesSet() {
+        System.out.println("Bean created — afterPropertiesSet()");
+    }
+    public void destroy() {
+        System.out.println("Container closed — destroy()");
+    }
+}
+
+
+
+In XML:
+
+<bean id="hw" class="beans.HelloWorld"/>
+
+No need to specify init/destroy methods in XML because they come from the interfaces.
+
+
+Create a Driver Class:
+
+ConfigurableApplicationContext ctx =
+    new ClassPathXmlApplicationContext("resources/spring.xml");
+ctx.close();
+
+
+Using Annotations:
+
+The easiest and most modern way.
+
+-@PostConstruct → runs after bean is created
+-@PreDestroy → runs before bean is destroyed
+
+
+package beans;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public class HelloWorld {
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean created — @PostConstruct method");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Container closed — @PreDestroy method");
+    }
+}
+
+
+In XML:
+
+<context:annotation-config/>
+<bean id="hw" class="beans.HelloWorld"/>
+
+
+
+
+
+

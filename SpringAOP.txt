@@ -1,0 +1,24 @@
+What is AOP (Aspect-Oriented Programming)?
+
+AOP means Aspect-Oriented Programming ->It’s a way to add extra behavior (like logging, security, or performance tracking) 
+                                        without changing your original code.
+
+
+Example idea:
+We want to print how long every method takes to run.
+
+Without AOP, we’d have to write the same code inside every method manually:
+
+long start = System.currentTimeMillis();
+long end = System.currentTimeMillis();
+System.out.println(end - start);
+
+
+With AOP:
+
+@LogExecutionTime
+public void doSomething() {
+
+}
+Spring will automatically add that timing logic for us in the background.
+

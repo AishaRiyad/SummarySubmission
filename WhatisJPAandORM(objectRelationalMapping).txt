@@ -1,0 +1,83 @@
+what is JPA?
+
+JPA stands for Java Persistence API.
+
+It’s basically a standard (a rulebook) in Java that tells us:->How to save Java objects in a database-and get them back later.
+
+it like a translator between the Java code and the database.
+
+
+Example without JPA:
+
+Let’s say we have a class:
+class Employee {
+    Long id;
+    String name;
+    String email;
+}
+
+Normally, to save it in a database,
+We’d have to write SQL manually like this:
+
+INSERT INTO employees (id, name, email) VALUES (1, 'Aisha', 'aisha@example.com');
+
+
+With JPA:
+
+We just write in Java:
+employeeRepository.save(employee);
+
+and JPA automatically does all this behind the scenes:
+INSERT INTO employees (id, name, email) VALUES (1, 'Aisha', 'aisha@example.com');
+
+----------------------------------------------------------------------------------------------------------------------------
+
+What does JPA do exactly?
+
+-Convert Java object → Database row
+-Convert Database row → Java object
+-Manage saving, updating, deleting
+-Write SQL for us
+
+----------------------------------------------------------------------------------------------------------------------------
+
+What is ORM?
+
+ORM means Object Relational Mapping.
+
+-Object → Java class (like Employee)
+-Relational → database table (employees)
+-Mapping → linking between them
+
+ORM = a system that connects Java objects to database tables.
+
+
+Example of ORM Mapping:
+
+Java Object (Employee)                                                       Database Table (employees)
+ 
+id → id column                                                               id
+
+name → name column                                                           name
+
+email → email column                                                         email
+
+
+The ORM framework (like Hibernate) does this mapping automatically
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Relationship between JPA and ORM
+
+
+JPA -> The rules or standard (like the Java interface)
+ORM (like Hibernate) -> The tool or implementation that actually does the work
+
+
+
+
+
+
+
+
+

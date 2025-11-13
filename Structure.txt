@@ -1,0 +1,26 @@
+job-scheduler/                <-- Root project (Parent POM)
+├─ pom.xml                    <-- Parent POM
+├─ README.md
+├─ scheduler-core/            <-- Module: Core scheduler logic
+│   ├─ pom.xml                <-- Module POM
+│   └─ src/main/java/com/yourname/schedulercore/  <-- Package
+│       ├─ Job.java
+│       ├─ JobResult.java
+│       ├─ Status.java
+│       └─ JobScheduler.java
+├─ scheduler-jobs/            <-- Module: Example/predefined jobs
+│   ├─ pom.xml                <-- Module POM
+│   └─ src/main/java/com/yourname/schedulerjobs/  <-- Package
+│       ├─ DataBackupJob.java
+│       ├─ LogCleanupJob.java
+│       └─ ReportGeneratorJob.java
+├─ scheduler-utils/           <-- Module: Optional utilities
+│   ├─ pom.xml                <-- Module POM
+│   └─ src/main/java/com/yourname/schedulerutils/ <-- Package
+│       ├─ RetryPolicy.java
+│       └─ JobLogger.java
+└─ scheduler-tests/           <-- Module: Unit tests
+    ├─ pom.xml                <-- Module POM
+    └─ src/test/java/com/yourname/schedulertests/ <-- Package
+        ├─ JobSchedulerTest.java
+        └─ JobExecutionTest.java

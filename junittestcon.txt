@@ -1,0 +1,97 @@
+@Nested tests:
+They’re tests inside tests. We use Java inner classes to group related tests and show their relationship.like folders inside folders:
+
+Outer class = big feature you’re testing.
+
+Inner class = a specific state or context of that feature.
+
+Deeper inner class = an even more specific situation
+
+
+Only non-static inner classes can be @Nested.
+
+We can nest as deep as we like.
+
+Each level can use lifecycle methods (@BeforeEach, @AfterEach, @BeforeAll, @AfterAll).
+
+Because outer setup runs first, inner tests are safe to run by themselves.
+
+
+Interoperability (with parameterized tests):
+
+We can combine @Nested with parameterized tests/classes:
+
+Outer class gets one parameter (e.g., fruit = apple, banana).
+
+Nested class gets another (e.g., quantity = 23, 42).
+
+The test method itself can also be parameterized (e.g., durations PT1H, PT2H).
+This produces a neat, expandable tree: for each fruit → each quantity → each duration.
+
+
+Dependency Injection (DI) for tests:
+
+Idea: In JUnit 5, test constructors and methods can take parameters. JUnit (via a ParameterResolver) injects useful objects for you.
+
+Built-in injections we get for free:
+
+TestInfo → tells us the test’s display name, class, method, and tags.
+
+Use in @BeforeAll, constructor, @BeforeEach, or @Test.
+
+RepetitionInfo → only inside @RepeatedTest (or its @BeforeEach/@AfterEach): tells us current repetition and total repetitions.
+
+TestReporter → publish key/value messages or files to the test report (instead of System.out).
+
+
+
+Test Interfaces & Default Methods:
+
+We can put test annotations on interface default methods and have test classes implement those interfaces to inherit tests and setup/teardown.
+
+
+Repeated Tests:
+
+Use @RepeatedTest(n) to run the same test n times (useful for flaky logic, randomness, or warmups).
+
+
+Failure threshold: @RepeatedTest(value = 8, failureThreshold = 2)
+Stop running more repetitions after 2 failures.
+
+Custom names: name supports placeholders:
+
+{displayName}, {currentRepetition}, {totalRepetitions}
+
+Built-in verbose pattern: RepeatedTest.LONG_DISPLAY_NAME
+
+
+A single test method → @ParameterizedTest
+
+A whole test class (experimental) → @ParameterizedClass
+Runs all tests in the class (including nested ones) for each input set.
+
+
+Add junit-jupiter-params to test dependencies. (Same as other param tests in JUnit 5.)
+
+
+Use one of these on @ParameterizedTest or @ParameterizedClass:
+
+@ValueSource – literals (ints, strings, etc.)
+
+@NullSource / @EmptySource / @NullAndEmptySource – edge cases
+
+@EnumSource – enum constants (filterable, regex, ranges)
+
+@CsvSource – inline CSV rows (also supports text blocks)
+
+@CsvFileSource – CSV from classpath/files
+
+@MethodSource – factory method returns a stream/collection of arguments
+
+@FieldSource – use a field that supplies a collection/array/supplier-of-stream
+
+@ArgumentsSource – plug in your own provider class
+
+For multiple arguments per run, use @CsvSource, @MethodSource, @FieldSource, or a custom @ArgumentsSource that yields Arguments.of(...).
+
+

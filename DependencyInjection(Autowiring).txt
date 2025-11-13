@@ -1,0 +1,217 @@
+What is Inversion of Control (IoC)?
+
+Normally in Java, we create and control objects.
+
+Example (normal way):
+public class Store {
+    private Item item;
+    public Store() {
+        item = new ItemImpl1();  
+    }
+}
+
+Here Store decides what kind of Item to use.
+That means Store controls everything.
+
+
+Now with IoC, we give the control to Spring.
+
+Spring will decide:
+-When to create Item
+-When to give it to Store
+-When to destroy it
+
+
+We just say “I need an Item”, and Spring gives it to us.
+That’s why it’s called Inversion of Control — control is inverted (flipped).
+
+---------------------------------------------------------------------------
+
+What is Dependency Injection (DI)?
+Dependency Injection is one way to achieve IoC.
+
+It means instead of creating dependencies.
+Spring injects (gives) them to us.
+
+Example:
+Without DI:
+
+public class Store {
+    private Item item;
+    public Store() {
+        item = new ItemImpl1();
+    }
+}
+
+Store creates its own item.
+
+
+With DI:
+
+public class Store {
+    private Item item;
+    public Store(Item item) {
+        this.item = item;
+    }
+}
+
+Now Store doesn’t care which Item it gets.
+Spring can give ItemImpl1, ItemImpl2, or any other version — just by configuration.
+
+
+---------------------------------------------------------------------------
+
+
+What is the Spring IoC Container?
+
+It’s the main part of Spring that:
+-Creates objects (beans)
+-Injects dependencies
+-Manages their lifecycle
+
+It’s represented by the ApplicationContext interface.
+
+There are different types:
+-AnnotationConfigApplicationContext → Java-based config
+-ClassPathXmlApplicationContext → XML-based config
+-WebApplicationContext → for web apps
+
+Example:
+ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+This loads all bean definitions from the XML file and makes them ready to use.
+
+
+---------------------------------------------------------------------------
+
+
+Dependency Injection Types in Spring
+
+Spring can inject dependencies in 3 main ways
+
+1)Constructor-Based Injection
+Spring calls the constructor and passes the dependency.
+
+
+Java config:
+
+@Configuration
+public class AppConfig {
+    @Bean
+    public Item item1() {
+        return new ItemImpl1();
+    }
+    @Bean
+    public Store store() {
+        return new Store(item1());
+    }
+}
+
+
+XML config:
+
+<bean id="item1" class="org.store.ItemImpl1" />
+<bean id="store" class="org.store.Store">
+    <constructor-arg ref="item1" />
+</bean>
+
+
+
+2)Setter-Based Injection
+
+Spring first creates the object, then calls the setter method to set dependencies.
+
+@Bean
+public Store store() {
+    Store store = new Store();
+    store.setItem(item1());
+    return store;
+}
+
+
+
+XML config:
+
+<bean id="store" class="org.store.Store">
+    <property name="item" ref="item1" />
+</bean>
+
+
+Constructor = for required things
+Setter = for optional things
+
+
+
+3)Field-Based Injection
+
+Spring injects directly into the field using reflection.
+
+
+public class Store {
+    @Autowired
+    private Item item;
+}
+
+
+It looks simple but not always recommended — because it uses reflection and makes testing harder.
+
+
+---------------------------------------------------------------------------
+
+
+Autowiring (Automatic Injection)
+
+Spring can automatically find and connect beans that match by type or name.
+
+
+Modes (in XML):
+
+Mode                              Description
+
+no                                No autowiring (manual setup)
+
+byName                            Matches bean name with property name
+
+byType                            Matches by class/type
+
+constructor                       Uses constructor arguments
+
+
+Example:
+
+<bean id="store" class="org.store.Store" autowire="byType" />
+
+
+Or with annotations:
+
+public class Store {
+    @Autowired
+    private Item item;
+}
+
+
+
+If there are two beans of the same type, we use:
+
+@Autowired
+@Qualifier("item1")
+private Item item;
+
+
+---------------------------------------------------------------------------
+
+
+Lazy Initialization
+By default, Spring creates all singleton beans when the app starts.
+But we can delay it until the bean is actually needed.
+
+
+<bean id="item1" class="org.store.ItemImpl1" lazy-init="true" />
+
+Advantage: Faster startup
+Disadvantage: If there’s an error, you find it later.
+
+
+
+
+

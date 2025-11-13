@@ -1,0 +1,149 @@
+1. Types of Tests:
+
+-Unit Test: 
+
+Purpose: Tests one small part of the code (like a single method or class) in isolation.
+
+Description: Uses mocks (fake dependencies) so that the test runs fast without starting the full application.
+
+
+
+-Integration Test:
+
+Purpose: Tests how different layers (Controller → Service → Repository → DB) work together.
+
+Description: Starts the full Spring Boot context and uses an in-memory database like H2.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+2. Main Testing Dependencies:
+
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-test</artifactId>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>com.h2database</groupId>
+  <artifactId>h2</artifactId>
+  <scope>test</scope>
+</dependency>
+
+
+-spring-boot-starter-test → includes JUnit 5, Mockito, AssertJ, and Spring test tools.
+-H2 → lightweight in-memory database for integration tests.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+3. Integration Testing – @SpringBootTest
+
+-Loads the entire Spring Boot application context.
+-Tests the real flow between all layers.
+-We can use MockMvc to simulate HTTP requests.
+
+Example:
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class EmployeeControllerIntegrationTest {
+    @Autowired private MockMvc mvc;
+    @Autowired private EmployeeRepository repository;
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+4. Custom Test Configuration – @TestConfiguration
+
+-Let us create special beans just for testing.
+-Useful when we don’t want to load the whole application.
+
+
+Example:
+
+@TestConfiguration
+static class TestConfig {
+    @Bean
+    public EmployeeService employeeService() {
+        return new EmployeeServiceImpl();
+    }
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+5. Mocking Dependencies – @MockBean
+
+-Replaces a real bean (like a repository) with a mock object.
+-Let us test one layer independently.
+
+Example:
+
+@MockBean
+private EmployeeRepository employeeRepository;
+
+@BeforeEach
+void setup() {
+    Employee alex = new Employee("alex");
+    Mockito.when(employeeRepository.findByName("alex")).thenReturn(alex);
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+6. Repository Testing – @DataJpaTest
+
+-Focused only on the database layer.
+-Uses an in-memory H2 DB automatically.
+-Includes TestEntityManager for inserting or reading test data.
+
+Example:
+
+@DataJpaTest
+public class EmployeeRepositoryTest {
+    @Autowired private TestEntityManager entityManager;
+    @Autowired private EmployeeRepository repository;
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+7. Controller Testing – @WebMvcTest
+
+-Tests only the web layer (controllers).
+-Automatically configures Spring MVC and MockMvc.
+-Use @MockBean to mock the service layer.
+
+Example:
+
+@WebMvcTest(EmployeeController.class)
+public class EmployeeControllerTest {
+    @Autowired private MockMvc mvc;
+    @MockBean private EmployeeService service;
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+8. Other Auto-Configured Test Annotations
+
+
+Annotation                                                        Tests Only
+
+@WebMvcTest                                                       Web controllers
+
+@DataJpaTest                                                      JPA repositories / database
+
+@JsonTest                                                         JSON serialization
+
+@RestClientTest                                                   REST client classes
+
+@JdbcTest                                                         JDBC components
+
+@DataMongoTest, @DataRedisTest, @DataLdapTest                     Specialized data layers
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+

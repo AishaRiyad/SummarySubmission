@@ -1,0 +1,173 @@
+What is @Query in Spring Data JPA?
+
+When we create a repository (like EmployeeRepository extends JpaRepository),
+Spring Data JPA automatically builds queries for simple cases (like findByName()).
+
+But sometimes we want to write our own SQL or JPQL query manually.
+That’s when we use the @Query annotation.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+1. Two types of queries you can write
+
+->1)JPQL (Java Persistence Query Language)
+    -Works with entities and field names.
+    -Independent from the database type.
+
+Example:
+
+@Query("SELECT u FROM User u WHERE u.status = 1")
+List<User> findAllActiveUsers();
+
+we used User (the class), not the table name.
+That’s the key difference — JPQL is “Java-style SQL”.
+
+
+
+->2)Native SQL
+    -Works with real table names and columns (actual SQL).
+    -We use this when we need database-specific features.
+
+@Query(
+  value = "SELECT * FROM users WHERE status = 1",
+  nativeQuery = true)
+List<User> findAllActiveUsersNative();
+
+----------------------------------------------------------------------------------------------------------------------------
+
+2. Passing parameters to queries
+
+There are two ways to send data to the query:
+
+
+1) Indexed parameters
+
+@Query("SELECT u FROM User u WHERE u.status = ?1 AND u.name = ?2")
+User findByStatusAndName(Integer status, String name);
+
+Spring automatically replaces ?1 with status, and ?2 with name.
+
+
+2)Named parameters
+
+This is more readable and safer
+
+@Query("SELECT u FROM User u WHERE u.status = :status AND u.name = :name")
+User findByStatusAndName(
+    @Param("status") Integer status,
+    @Param("name") String name);
+
+Easier to read, and we don’t have to count parameter positions.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+3. Sorting
+
+We can add sorting to our query using Sort parameter.
+
+@Query("SELECT u FROM User u")
+List<User> findAllUsers(Sort sort);
+
+
+When we call it:
+
+userRepository.findAllUsers(Sort.by("name"));
+
+It adds ORDER BY name automatically.
+
+->Sorting only works for JPQL — not native queries.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+4. Pagination
+
+Instead of showing 1,000 users at once -> we can show them page by page (like in a web app table).
+
+@Query("SELECT u FROM User u ORDER BY id")
+Page<User> findAllUsers(Pageable pageable);
+
+
+We call it like:
+
+PageRequest page = PageRequest.of(0, 10); // page 1, 10 rows
+Page<User> users = userRepository.findAllUsers(page);
+
+Works for both JPQL and native queries (with a countQuery).
+
+Example with native:
+
+@Query(
+  value = "SELECT * FROM users ORDER BY id",
+  countQuery = "SELECT count(*) FROM users",
+  nativeQuery = true)
+Page<User> findAllUsersNative(Pageable pageable);
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+5. Joins (combining tables)
+
+If we want to join data from multiple tables:
+
+With JPQL:
+
+@Query("SELECT new com.example.ResultDTO(c.id, o.id, p.id, c.name, o.date, p.price) " +
+       "FROM Customer c JOIN c.orders o JOIN o.products p WHERE c.id = ?1")
+List<ResultDTO> findDetailsByCustomer(Long id);
+
+We must create a DTO class (ResultDTO) that matches the selected columns.
+
+
+With native SQL:
+
+@Query(value = "SELECT c.*, o.*, p.* " +
+               "FROM customer c JOIN orders o ON c.id=o.customer_id " +
+               "JOIN product p ON o.id=p.order_id WHERE c.id=?1",
+       nativeQuery = true)
+List<Map<String, Object>> findDetailsByCustomer(Long id);
+
+
+the method returns a list of maps -> each map = one row (column name → value).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+6. Update / Insert Queries
+
+-Update with JPQL:
+
+@Modifying
+@Query("UPDATE User u SET u.status = :status WHERE u.name = :name")
+int updateStatus(@Param("status") int status, @Param("name") String name);
+
+Returns how many rows were updated.
+
+
+
+-Insert with native SQL:
+(JPA doesn’t support INSERT in JPQL — must use native)
+
+@Modifying
+@Query(value = "INSERT INTO users (name, age, email, status) VALUES (:name, :age, :email, :status)",
+       nativeQuery = true)
+void insertUser(@Param("name") String name,
+                @Param("age") int age,
+                @Param("email") String email,
+                @Param("status") int status);
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+7. Dynamic queries (built at runtime)
+
+Sometimes we don’t know what conditions we’ll need until the program runs.
+
+For example:
+SELECT u FROM User u WHERE u.email LIKE '%gmail%' OR u.email LIKE '%yahoo%'
+
+We can’t write that with a fixed @Query,
+so we build it dynamically using the Criteria API or custom repository.
+
+
+
+
+

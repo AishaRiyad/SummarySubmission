@@ -1,0 +1,19 @@
+What Is CRUD?
+CRUD means the 4 basic operations we can do with data:
+
+Operation           HTTP Method                     What It Does                      Example
+
+Create              POST                            Add new data                      Add a new user
+
+Read                GET                             View data                         Get all users or one user
+
+Update              PUT                             Change existing data               Edit user info
+
+Delete              DELETE                          Remove data                        Delete a user
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+I Will Build
+A simple Spring Boot REST API that manages, employees in a database. -> done 
+

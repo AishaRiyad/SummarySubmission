@@ -1,0 +1,103 @@
+@Component, @Service, and @Repository in Spring
+
+
+What Are They?
+These three are annotations that tell Spring: -> this class is a Spring-managed bean — please create it automatically
+
+They are part of Spring’s Component Scanning feature.
+Spring scans the project and automatically adds these classes to the ApplicationContext (so we can use @Autowired on them).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+1)@Component
+Meaning: It’s a generic annotation for any Spring-managed class.
+
+If the class doesn’t clearly belong to a special layer (like service or repository), use @Component.
+
+Example:
+@Component
+public class EmailValidator {
+    public boolean isValid(String email) {
+        return email.contains("@");
+    }
+}
+This class is just a regular component in the app.
+
+
+----------------------------------------------------------
+
+
+2)@Service
+Meaning: Used for business logic classes — the “service layer”.
+
+Example:
+
+@Service
+public class PaymentService {
+    public void processPayment() {
+        System.out.println("Processing payment...");
+    }
+}
+This class does business work or calculations.
+
+
+-----------------------------------------------------------
+
+
+3)@Repository
+Meaning: Used for database (data access) classes — the “persistence layer”.
+
+Example:
+
+@Repository
+public class UserRepository {
+    public void saveUser(String name) {
+        System.out.println("Saving user to the database...");
+    }
+}
+This class talks to the database.
+
+Spring automatically translates database errors into Spring’s own exceptions when using @Repository.
+So instead of raw SQL errors, we get cleaner exceptions (like DataAccessException).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Relationship Between Them:
+Both @Service and @Repository are special types of @Component
+
+Meaning:
+-@Component → the parent (the general one)
+-@Service → specialized for service/business layer
+-@Repository → specialized for database layer
+
+
+Spring internally defines them like this:
+
+@Component
+public @interface Service { }
+
+@Component
+public @interface Repository { }
+
+So, Spring treats them all the same — but we use different ones to make our code easier to understand and organize.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Typical App Layers
+
+Layer                             Annotation                                          What It Does
+
+Controller Layer                  @Controller or @RestController                      Handles HTTP requests
+
+Service Layer                     @Service                                            Contains business logic
+
+Repository Layer                  @Repository                                         Handles database operations
+
+Helper/Utility                    @Component                                          General helper class
+
+
+
+
+

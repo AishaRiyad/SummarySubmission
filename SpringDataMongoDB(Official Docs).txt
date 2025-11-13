@@ -1,0 +1,65 @@
+What Is Spring Data MongoDB?
+
+Spring Data MongoDB is a part of the Spring Framework that helps us work easily with MongoDB, which is a NoSQL database (it stores data as documents instead of rows and tables like MySQL).
+
+Why we Use It?
+
+Without Spring, we would need to write a lot of manual MongoDB code like this:
+
+MongoClient client = new MongoClient("localhost", 27017);
+MongoDatabase db = client.getDatabase("test");
+MongoCollection<Document> col = db.getCollection("users");
+
+
+But with Spring Data MongoDB, we can handle everything using simple methods and annotations — just like we do with Spring Data JPA for SQL databases.
+
+ -It saves time
+ -Reduces code
+ -Keeps the app clean and easy to maintain
+
+----------------------------------------------------------------------------------------------------------------------------
+
+How It Works
+Spring Data MongoDB gives us two main ways to interact with the database:
+
+1)MongoTemplate
+helper tool that gives us full control over MongoDB operations.
+
+Example:
+
+@Autowired
+private MongoTemplate mongoTemplate;
+
+mongoTemplate.insert(new User("Aisha", "aisha@example.com"));
+
+List<User> users = mongoTemplate.findAll(User.class);
+
+User user = mongoTemplate.findById("123", User.class);
+
+
+We use this when we want fine-grained control — for example, if we need custom queries or specific database logic.
+
+
+
+2)MongoRepository
+This is the easiest and most common way to use Spring Data MongoDB.
+
+It lets us create a repository interface, and Spring automatically generates all the database methods for us.
+
+Example:
+
+@Repository
+public interface UserRepository extends MongoRepository<User, String> {
+    List<User> findByName(String name);
+}
+
+Then we can just call:
+
+userRepository.save(new User("Aisha", "aisha@gmail.com"));
+userRepository.findByName("Aisha");
+
+
+We don’t need to write the query — Spring automatically creates it from the method name
+
+
+

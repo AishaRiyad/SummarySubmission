@@ -1,0 +1,179 @@
+Hibernate is a tool that helps Java talk to databases easily
+
+just like JPA (Java Persistence API), but Hibernate is the actual engine that does the work.
+
+Spring Boot can integrate Hibernate so they work perfectly together
+
+
+instead of writing:
+SELECT * FROM products WHERE category = 'sweets';
+
+we write:
+session.createQuery("from Product where category = :category");
+
+
+and Hibernate runs the SQL automatically.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+1)What is Hibernate?
+
+Hibernate is an ORM (Object Relational Mapping) framework.
+
+It converts Java objects ↔ database tables automatically.
+
+
+Java Class	                                                Database Table
+
+Product.java                                                    products
+
+id, name, price                                                 columns in the table
+
+
+So we deal with objects, not SQL queries.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+2)How Hibernate connects to the database (SessionFactory)
+
+Before we can use Hibernate, we must connect it to our database.
+This is done using something called a SessionFactory.
+
+SessionFactory = the factory that makes "sessions,"
+and each “session” = one connection to the database.
+
+
+In Spring, we can define it as a bean (so Spring manages it for us).
+
+
+Example (in XML style):
+<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+    <property name="url" value="jdbc:h2:mem:testdb"/>
+    <property name="username" value="sa"/>
+</bean>
+
+<bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <property name="dataSource" ref="myDataSource"/>
+    <property name="hibernateProperties">
+        <value>hibernate.dialect=org.hibernate.dialect.H2Dialect</value>
+    </property>
+</bean>
+
+----------------------------------------------------------------------------------------------------------------------------
+
+3)DAO Layer (Data Access Object)
+
+This is where we write the code that actually talks to the database.
+
+Example:
+
+public class ProductDaoImpl implements ProductDao {
+    private SessionFactory sessionFactory;
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public List<Product> loadProductsByCategory(String category) {
+        return sessionFactory.getCurrentSession()
+            .createQuery("from Product where category = :category")
+            .setParameter("category", category)
+            .list();
+    }
+}
+
+
+-The SessionFactory is given to this class by Spring.
+-Each time we need data, we open a “session” (connection).
+-We use Hibernate Query Language (HQL) to get or save data.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+4)Transactions
+
+A transaction means: a group of database actions that must all succeed or all fail together.
+
+Example:
+
+-We withdraw 10 JD from one account
+-We deposit 10 JD into another
+
+If one fails, both should fail. That’s what a transaction ensures.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+5)Declarative Transactions
+
+In Spring Boot, we don’t need to manage transactions manually.
+We just add @Transactional to our methods — and Spring handles the rest
+
+
+Example:
+
+@Service
+public class ProductService {
+    private final ProductDao productDao;
+
+    @Transactional
+    public void increasePrice(String category) {
+        List<Product> products = productDao.loadProductsByCategory(category);
+    }
+}
+
+-@Transactional means Spring will start a transaction when this method begins,
+and commit it when the method ends successfully.
+-If there’s an error, it rolls back (undoes everything).
+
+We don’t need to write BEGIN or COMMIT manually.
+
+
+----------------------------------------
+How Spring makes that work
+
+In the background, Spring uses a special object called a
+Transaction Manager — like a traffic controller
+
+Example (if we were configuring it manually in XML):
+
+<bean id="transactionManager"
+      class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <property name="sessionFactory" ref="mySessionFactory"/>
+</bean>
+
+<tx:annotation-driven/>
+
+
+That means: Use Hibernate to handle the database transactions.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+6)Programmatic Transactions
+
+If we don’t want to use @Transactional,
+we can manually start and end transactions in code.
+
+Example:
+transactionTemplate.execute(status -> {
+    List<Product> list = productDao.loadProductsByCategory("Food");
+});
+
+This way is flexible but longer and more repetitive.
+
+That’s why most developers use the declarative way (@Transactional).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+7)Transaction Managers
+
+There are two main types:
+
+Type                                                                    Use Case
+
+HibernateTransactionManager                                             When using one database
+
+JtaTransactionManager                                                   When multiple databases or servers are involved
+
+
+Spring can switch between them just by configuration — we don’t change our code.

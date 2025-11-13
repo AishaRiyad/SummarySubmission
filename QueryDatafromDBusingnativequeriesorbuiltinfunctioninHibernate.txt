@@ -1,0 +1,176 @@
+What is a native SQL query in Hibernate?
+
+-Native SQL = we write real SQL (SELECT … FROM …) and ask Hibernate to run it.
+-Normally, we use HQL/JPQL or repository methods so Hibernate builds SQL for us.
+-Native SQL is useful when we need DB-specific features or a query that JPQL can’t express easily.
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Pros vs Cons
+
+When it helps
+
+-Vendor features (e.g., Oracle CONNECT BY, DB hints, special functions).
+-Complex queries already written by DBA.
+-Performance tuning with very custom SQL.
+
+
+Trade-offs
+
+-We lose some Hibernate magic: automatic joins by relationships, 1st-level cache benefits, type mapping convenience.
+-Results often come back as Object[] unless we map them carefully.
+-More manual work to convert rows → objects.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Hibernate (Session) examples
+
+1) Basic native query → rows
+
+Session session = sessionFactory.getCurrentSession();
+var tx = session.beginTransaction();
+
+SQLQuery query = session.createSQLQuery(
+    "SELECT emp_id, emp_name, emp_salary FROM Employee"
+);
+List<Object[]> rows = query.list();
+
+for (Object[] row : rows) {
+    Long id = ((Number) row[0]).longValue();
+    String name = (String) row[1];
+    Double salary = ((Number) row[2]).doubleValue();
+   
+}
+tx.commit();
+
+
+
+2) Hint the column types with addScalar (minor perf/typing help)
+
+query = session.createSQLQuery(
+        "SELECT emp_id, emp_name, emp_salary FROM Employee")
+    .addScalar("emp_id",  org.hibernate.type.LongType.INSTANCE)
+    .addScalar("emp_name", org.hibernate.type.StringType.INSTANCE)
+    .addScalar("emp_salary", org.hibernate.type.DoubleType.INSTANCE);
+
+
+
+3) Join multiple tables (manual mapping)
+
+SQLQuery query = session.createSQLQuery("""
+    SELECT e.emp_id, e.emp_name, e.emp_salary, a.address_line1, a.city, a.zipcode
+    FROM Employee e JOIN Address a ON a.emp_id = e.emp_id
+""");
+List<Object[]> rows = query.list();
+
+
+
+4) Entity mapping with addEntity / addJoin (returns actual entities)
+
+SQLQuery query = session.createSQLQuery(
+    "SELECT {e.*}, {a.*} FROM Employee e JOIN Address a ON e.emp_id=a.emp_id")
+    .addEntity("e", Employee.class)
+    .addJoin("a", "e.address");
+
+List<Object[]> rows = query.list();
+Employee e = (Employee) rows.get(0)[0];
+Address  a = (Address)  rows.get(0)[1];
+
+
+5)Parameters (positional or named)
+
+
+SQLQuery q1 = session.createSQLQuery(
+    "SELECT emp_id, emp_name FROM Employee WHERE emp_id = ?");
+q1.setLong(0, 1L);
+
+
+SQLQuery q2 = session.createSQLQuery(
+    "SELECT emp_id, emp_name FROM Employee WHERE emp_id = :id");
+q2.setLong("id", 2L);
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Spring Boot / Spring Data JPA way
+
+In Spring Boot, we rarely touch Session directly. We either use:
+
+A) EntityManager native query
+
+@PersistenceContext
+private EntityManager em;
+
+public List<Object[]> rawEmployees() {
+    return em.createNativeQuery(
+        "SELECT id, name, email FROM employees"
+    ).getResultList();
+}
+
+
+We can also map directly to our entity if we select all columns with the right names:
+
+public List<Employee> allEmployeesAsEntities() {
+    return em.createNativeQuery("SELECT * FROM employees", Employee.class)
+             .getResultList(); 
+}
+
+-------------------------------------------------------------
+
+B) Spring Data repository with @Query(nativeQuery = true)
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Query(value = "SELECT * FROM employees WHERE email = :email", nativeQuery = true)
+    Optional<Employee> findByEmailNative(@Param("email") String email);
+
+    interface EmpNameOnly { String getName(); }
+
+    @Query(value = "SELECT name FROM employees", nativeQuery = true)
+    List<EmpNameOnly> findAllNamesNative();
+}
+
+
+If we don’t select * for the full entity, consider returning:
+ -Scalar DTO projection (interface/class) or
+ -List<Object[]> (and map yourself).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+When should we use native SQL?
+
+-We tried JPQL / derived repository methods but can’t express the query.
+-We need a DB-specific feature.
+-We have a carefully tuned SQL we don’t want to translate to JPQL.
+
+
+With H2 
+
+All the above works with H2 too.
+
+-Use H2’s SQL dialect (Spring Boot picks it automatically).
+-If we map entities from native SQL, we make sure column names match our entity mapping (or alias them).
+
+
+Example:
+
+@Query(value = """
+   SELECT id, name, email 
+   FROM employees
+   WHERE LOWER(name) LIKE LOWER(CONCAT('%', :q, '%'))
+""", nativeQuery = true)
+List<Object[]> search(@Param("q") String q);
+
+
+Or return entity (we must select all mapped columns, with matching names):
+
+@Query(value = "SELECT * FROM employees WHERE id = :id", nativeQuery = true)
+Optional<Employee> findOneFull(@Param("id") Long id);
+
+
+
+
+
+
+
+

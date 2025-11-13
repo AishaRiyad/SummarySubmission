@@ -1,0 +1,120 @@
+Spring Boot uses annotations to make setup easier.
+Instead of writing long XML files, we just add small “labels” (annotations) on the code — and Spring Boot figures out what to do automatically.
+
+------------------------------------------------------------------------------------------------------------------------------
+
+@SpringBootApplication:
+
+This is the main annotation for any Spring Boot app.
+It tells Spring Boot: -> This is where my app starts.
+
+
+Example:
+
+@SpringBootApplication
+public class VehicleFactoryApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(VehicleFactoryApplication.class, args);
+    }
+}
+
+
+This single annotation combines three other important ones:
+-@Configuration -> let us define beans in this class
+-@EnableAutoConfiguration -> tells Spring Boot to automatically configure stuff for us
+-@ComponentScan -> tells Spring where to look for other classes (@Service, @Repository, etc.)
+
+So @SpringBootApplication = all three together 
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+@EnableAutoConfiguration
+
+This one turns on auto-configuration.
+
+That means Spring Boot will look at our dependencies (like MySQL, Spring Web, etc.)
+and configure them automatically for us — so we don’t need to set them up manually.
+
+Example:
+@Configuration
+@EnableAutoConfiguration
+class VehicleFactoryConfig { }
+
+
+If Spring Boot sees we have Spring Web in our dependencies, it automatically sets up a web server for us.
+If it sees MySQL, it auto-configures a database connection.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Conditional Auto-Configuration
+
+Sometimes we want Spring to configure only if certain conditions are true.
+Spring Boot gives us many @Conditional... annotations for this.
+
+
+1) @ConditionalOnClass and @ConditionalOnMissingClass
+Use when we want something to load only if a class exists (or doesn’t).
+
+@Configuration
+@ConditionalOnClass(DataSource.class)
+class MySQLAutoConfiguration {
+    
+}
+Only runs if DataSource is available
+
+----------------------------------------------------------------
+
+2)@ConditionalOnBean and @ConditionalOnMissingBean
+Use when we want to configure something only if another bean exists (or doesn’t).
+
+@Bean
+@ConditionalOnBean(name = "dataSource")
+LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
+   }
+
+Only runs if a bean named "dataSource" exists
+
+----------------------------------------------------------------
+
+3)@ConditionalOnProperty
+Run code only if a property in application.properties has a certain value.
+
+@Bean
+@ConditionalOnProperty(name = "usemysql", havingValue = "local")
+DataSource dataSource() {
+   
+}
+Runs only if usemysql=local in application.properties
+
+----------------------------------------------------------------
+
+4)@ConditionalOnResource
+Run something only if a specific resource (like a file) exists.
+
+@ConditionalOnResource(resources = "classpath:mysql.properties")
+Properties additionalProperties() {
+   
+}
+Runs only if mysql.properties file exists
+
+-----------------------------------------------------------------
+
+5)@ConditionalOnWebApplication and @ConditionalOnNotWebApplication
+
+
+
+
+
+
+
+
+
+
+
+
+
+

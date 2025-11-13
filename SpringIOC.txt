@@ -1,0 +1,40 @@
+Normally in Java, we control how objects are created and connected.
+
+For example:
+Sim sim = new Jio();
+
+Here, the code is creating the object.
+We are in control.
+
+But in Spring, the framework (IoC container) creates and manages objects for us — it decides:
+
+-When to create them
+-When to inject them into others
+-When to destroy them
+
+That’s why it’s called Inversion of Control — the control of object creation is inverted (reversed).
+Instead of our controlling the object, Spring controls it.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+What is a Spring IoC Container?
+
+The IoC container is the heart of Spring.
+
+It:
+-Creates objects (called beans)
+-Manages their dependencies (using Dependency Injection)
+-Controls their lifecycle
+
+
+There are two main types of IoC containers in Spring:
+
+Container             Description
+
+BeanFactory          The most basic IoC container. It provides only basic dependency injection and bean lifecycle 
+                     management.
+
+ApplicationContext   A more advanced container that extends BeanFactory and adds enterprise-level features like event 
+                     handling, internationalization, and automatic bean scanning. It’s used in almost all Spring apps. 
+

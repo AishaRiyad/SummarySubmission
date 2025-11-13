@@ -1,0 +1,11 @@
+A regular expression (regex) is a sequence of characters that forms a search pattern.
+It’s mainly used to find, match, or replace text in strings
+
+java.util.regex.Pattern
+java.util.regex.Matcher
+
+matches():Checks if the entire string matches the regex
+find():Searches for the next substring that matches
+group():Returns the matched substring
+replaceAll():Replaces all occurrences matching regex
+split():Splits the string using the regex as delimiter

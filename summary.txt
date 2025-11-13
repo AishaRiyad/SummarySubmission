@@ -1,0 +1,352 @@
+HTTP (HyperText Transfer Protocol) is the foundation of data communication on the web.
+It defines how messages are formatted and transmitted between clients (like browsers) and servers.
+
+Client → sends a request (like “GET this page”).
+
+Server → sends back a response (like the HTML of that page).
+
+HTTP is stateless, meaning each request is independent — the server doesn’t remember previous requests.
+
+Why it’s important:
+Understanding HTTP helps developers know how browsers, APIs, and web servers communicate — which is essential for debugging, API integration, and backend/frontend development.
+
+
+
+HTTP/1.0: Each request opens a new connection (slow).
+
+HTTP/1.1: Introduced persistent connections and pipelining for better speed.
+
+HTTP/2: Uses multiplexing (multiple requests over one connection) — faster and more efficient.
+
+HTTP/3: Built on QUIC protocol (uses UDP) for even faster and more secure communication.
+
+
+HTTP methods define what action the client wants to perform on a resource.
+
+Method	 Purpose	                             Example
+GET	Retrieve data	                       Get a user profile
+POST	Create new data	                         Add a new user
+PUT	Update existing data completely	        Update user info
+PATCH	Partially update data	              Update only the email
+DELETE	Remove data	                         Delete a user
+HEAD	Get only metadata (headers)	       Check if a resource exists
+OPTIONS	Check which methods are allowed 	Useful for CORS
+
+
+
+
+
+Request Structure
+
+A typical HTTP request includes:
+
+Request Line: Method + URL + HTTP version
+Example: GET /home HTTP/1.1
+
+Headers: Additional info (like authentication, content type)
+
+Body: (Optional) The data sent (used in POST/PUT)
+
+Response Structure
+
+The server replies with:
+
+Status Line: HTTP version + Status Code + Message
+Example: HTTP/1.1 200 OK
+
+Headers: Info about response (content type, length, etc.)
+
+Body: The requested content (HTML, JSON, etc.)
+
+
+
+
+These indicate how the request went:
+
+Code Range	Meaning	Example
+1xx	Informational	100 Continue
+2xx	Success	200 OK, 201 Created
+3xx	Redirection	301 Moved Permanently, 302 Found
+4xx	Client Error	400 Bad Request, 404 Not Found
+5xx	Server Error	500 Internal Server Error
+
+
+
+Content-Type: application/json → tells format of body
+
+Authorization: Bearer <token> → sends credentials
+
+Cache-Control: no-cache → controls caching behavior
+
+User-Agent: → identifies the client (e.g., Chrome browser)
+
+
+
+
+
+Feature	                Stateless	            Stateful
+
+Definition Each request is independent   Server remembers previous requests
+
+Example                HTTP                           FTP, SSH
+
+Advantages	Simpler, scalable	Maintains continuity
+
+Disadvantages No memory between requests More complex and resource-heavy
+
+
+
+IP Address: A unique numerical label identifying a device on a network (e.g., 192.168.1.1).
+
+Port: A virtual endpoint for communication. It tells the computer which service to use.
+
+Example:
+
+Port 80 → HTTP
+
+Port 443 → HTTPS
+
+Port 21 → FTP
+
+
+JSON vs XML
+Feature	                  JSON	                        XML
+Syntax	            Key-value pairs	        Tags and attributes
+Readability	    Easier to read	           More verbose
+Data Type Suppor  Strings, numbers, booleans	    Text-based
+Use Case	       Web APIs	        Configurations and legacy systems
+
+
+
+
+API (Application Programming Interface)
+
+An API (Application Programming Interface) is a defined set of rules that enables communication between different software systems. It specifies how data should be requested, transmitted, and received. APIs are widely used to integrate applications and services seamlessly, allowing functionality such as user authentication, payment processing, and data sharing.
+
+Types of APIs:
+
+Open APIs: Publicly available for developers.
+
+Internal APIs: Used within a single organization.
+
+Partner APIs: Shared with selected partners.
+
+Composite APIs: Combine multiple APIs into a single call.
+
+APIs promote reusability, modularity, and faster development across distributed systems.
+
+
+
+REST vs SOAP
+Feature	REST (Representational State Transfer)	SOAP (Simple Object Access Protocol)
+Protocol	Uses HTTP	Uses XML-based messaging protocol
+Data Format	Supports JSON, XML	Uses only XML
+Complexity	Simple and lightweight	Complex and rigid
+Performance	High	Comparatively slower
+Use Case	Web and mobile APIs	Enterprise and legacy systems
+
+REST APIs are preferred for modern applications due to their simplicity, flexibility, and high performance, whereas SOAP remains suitable for systems requiring strict standards and built-in security.
+
+
+
+
+CRUD Operations
+
+CRUD represents the four fundamental operations performed on persistent data:
+
+Operation	HTTP Method	Description
+Create	POST	Adds new data
+Read	GET	Retrieves data
+Update	PUT/PATCH	Modifies existing data
+Delete	DELETE	Removes data
+
+CRUD operations form the backbone of RESTful API interactions, ensuring structured and predictable data handling across applications.
+
+
+
+
+
+Data Persistence
+
+Data persistence ensures that information remains stored even after the application is closed.
+
+SQL (Structured Query Language)
+
+Relational database structure (tables, rows, columns).
+
+Enforces a fixed schema and supports complex queries.
+
+Ensures ACID properties (Atomicity, Consistency, Isolation, Durability).
+
+NoSQL (Not Only SQL)
+
+Schema-less or flexible structure.
+
+Optimized for unstructured or large-scale data.
+
+Includes document-based (MongoDB), key-value (Redis), and graph databases (Neo4j).
+
+Feature	SQL	NoSQL
+Schema	Fixed	Flexible
+Scalability	Vertical	Horizontal
+Best For	Structured data and transactions	Big data and dynamic content
+
+Both SQL and NoSQL play critical roles depending on the nature of data and system scalability requirements.
+
+
+
+
+Authentication vs Authorization
+
+Authentication and Authorization are fundamental security mechanisms.
+
+Authentication: Confirms the user’s identity (e.g., login credentials).
+
+Authorization: Determines what resources an authenticated user can access.
+
+Example: A user logs in to confirm identity (authentication) and can view specific data based on assigned permissions (authorization).
+
+Strong authentication and authorization practices prevent unauthorized access and ensure data security.
+
+
+
+
+JWT Token (JSON Web Token)
+
+A JWT (JSON Web Token) is a secure, self-contained token for transmitting information between client and server. It is digitally signed to prevent tampering.
+
+Structure:
+
+Header.Payload.Signature
+
+Header: Specifies token type and encryption algorithm.
+
+Payload: Contains user data or claims (e.g., ID, role, expiration).
+
+Signature: Verifies data integrity using a secret or key pair.
+
+JWTs enable stateless authentication, eliminating the need for session storage while maintaining trust and scalability in distributed systems.
+
+
+
+
+
+Role-Based Access Control (RBAC)
+
+RBAC assigns permissions based on defined user roles, simplifying access management.
+
+Components:
+
+Users: Individuals who require access.
+
+Roles: Groups representing specific job functions.
+
+Permissions: Allowed actions for each role.
+
+Example:
+
+Admin role — Add, edit, and delete users.
+
+User role — View and edit personal information only.
+
+Benefits:
+
+Simplifies user management.
+
+Reduces security risks.
+
+Supports scalability in enterprise systems.
+
+Ensures compliance with privacy standards.
+
+
+
+
+Semantic Versioning
+
+Semantic Versioning (SemVer) provides a consistent method for assigning software version numbers in the format:
+
+MAJOR.MINOR.PATCH
+
+Component	Meaning	Example
+MAJOR	Incompatible changes	2.0.0
+MINOR	New backward-compatible features	2.1.0
+PATCH	Bug fixes	2.1.1
+
+Semantic versioning communicates the nature of updates clearly, allowing developers and users to manage dependencies and upgrades safely.
+
+
+
+
+API Versioning
+
+API Versioning enables the introduction of new features or changes without breaking existing client integrations.
+
+Common Methods:
+Method	Example	Advantages	Disadvantages
+URI-based	/api/v1/users	Simple to use	Clutters URLs
+Header-based	Accepts-version: 1.0	Clean URLs	More complex setup
+Query Parameter	/users?version=1	Easy to implement	Less secure
+
+
+
+
+Pagination in APIs
+
+Pagination divides large datasets into smaller, manageable sections to enhance performance and user experience.
+
+Approaches:
+Type	Example	Pros	Cons
+Page-based	/items?page=2&size=10	Easy to understand	Can duplicate data if dataset changes
+Offset-based	/items?offset=20&limit=10	Compatible with SQL	Slower with large data
+Cursor-based	/items?cursor=abc123&limit=10	High consistency	More complex logic
+
+Pagination prevents excessive data loading, reduces server strain, and supports smooth client-side navigation, especially in large-scale applications.
+
+
+
+
+
+Multi-Layered Software Architecture
+
+A multi-layered (n-tier) architecture organizes software into distinct layers, each responsible for a specific function, improving scalability, maintainability, and modularity.
+
+Core Layers:
+
+Presentation Layer: Manages the user interface and interaction.
+
+Application/Business Logic Layer: Implements business rules and processes.
+
+Data Layer: Handles data storage and retrieval.
+
+Additional layers may include:
+
+Service Layer: Manages API integrations.
+
+Persistence Layer: Handles database operations.
+
+Security Layer: Controls access and authentication.
+
+Advantages:
+
+Simplifies maintenance and updates.
+
+Enhances scalability and reliability.
+
+Encourages clear separation of concerns.
+
+Supports distributed, cloud-based, and large-scale applications.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

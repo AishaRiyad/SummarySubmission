@@ -1,0 +1,150 @@
+bean scope is as the lifetime or visibility of a Spring bean (how long the object lives and who can use it)
+
+When Spring creates a bean (an object), it needs to know:
+-Should there be only one instance for the whole app?
+-Or should it create a new one each time it’s needed?
+-Or one per user session?
+-Or one per HTTP request?
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Scope                               Meaning                                            When to Use        
+
+singleton (default)     Only one instance for the entire Spring container         For shared, stateless services
+
+prototype               Creates a new instance every time you request it          For stateful objects
+
+request                 One instance per HTTP request                         For data needed only during one web request
+
+session                 One instance per user session                         For storing user-related data (like preferences)
+
+application             One instance for the whole web application            Shared data for all users
+
+websocket               One instance per WebSocket connection                 For real-time apps (like chat)
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+1-Singleton (default): Spring creates only one object and reuses it everywhere.
+
+@Component
+@Scope("singleton")
+public class MyService {
+}
+
+Every time we request MyService, we get the same instance.
+
+
+
+2-Prototype: Spring creates a new object each time you ask for it.
+
+@Component
+@Scope("prototype")
+public class MyService {
+}
+
+Every request gives us a fresh instance.
+
+
+
+3-Request:Creates a new object for every HTTP request.
+
+@Component
+@RequestScope
+public class LoginAction {
+}
+
+Each user request gets its own object — perfect for web controllers.
+
+
+
+4-Session: Creates one object per user session.
+
+@Component
+@SessionScope
+public class UserPreferences {
+}
+
+Each user has their own version of this bean — good for login data or preferences.
+
+
+
+Application: Creates one shared object for the entire web application.
+
+@Component
+@ApplicationScope
+public class AppPreferences {
+}
+
+This is shared by everyone and lives until the application stops.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Singleton vs Prototype
+
+
+Comparison                                    Singleton                                         Prototype
+
+How many instances?                          One shared                                        New each time
+
+Good for                                     Stateless beans                                   Stateful beans
+
+Managed/destroyed by                         Spring                                            manual cleanup
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+If a singleton bean depends on a prototype bean,
+Spring injects only one instance of that prototype at startup.
+So it won’t get a new one each time.
+
+
+Solution: Use a proxy.
+
+@Component
+@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class MyPrototypeBean {
+}
+
+This makes Spring give a smart proxy — it fetches a new instance each time the singleton uses it.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Web Scopes (Request, Session, Application, WebSocket)
+
+These work only in web applications (Spring MVC or Boot Web).
+
+They depend on HttpRequest and HttpSession, which only exist in a web environment.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Custom Scopes (Advanced)
+
+We can even create our own scope (for example, one per thread).
+
+To do that:
+
+1-Implement the Scope interface.
+2-Register it with Spring.
+
+Example (built-in SimpleThreadScope):
+
+Scope threadScope = new SimpleThreadScope();
+beanFactory.registerScope("thread", threadScope);
+
+
+Then we can use:
+
+<bean id="thing2" class="x.y.Thing2" scope="thread"/>
+
+
+
+
+
+                           
+
+
+
+

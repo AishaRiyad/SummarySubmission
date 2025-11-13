@@ -1,0 +1,134 @@
+difference between using application.properties and application.yml (YAML) in Spring Boot.
+Both are configuration files — like the “settings” for the Spring Boot project (same idea as .env file).
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+1)Purpose of these files
+
+Both files are used to tell Spring Boot how the app should behave:
+ -which database to connect to
+ -which port to run on
+ -any custom values (like app name, API keys, etc.)
+
+------------------------------------------------------------------------------------------------------------------------------
+
+2)The difference in format
+
+-->application.properties -> This uses key = value style.
+
+Example:
+spring.datasource.url=jdbc:h2:dev
+spring.datasource.username=aisha
+spring.datasource.password=password
+
+Each setting is written on a new line using =.
+But it becomes repetitive if we have many settings with the same prefix.
+
+------------------------------------------------------------------------
+
+-->application.yml -> This uses indentation (spaces) instead of = signs. -> It’s cleaner and easier to read.
+
+Example:
+spring:
+  datasource:
+    url: jdbc:h2:dev
+    username:aisha
+    password: password
+
+Same thing — just easier on the eyes
+And no need to repeat the prefix spring.datasource every time.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+3)Lists (Arrays)
+
+In .properties -> We must use array indexes:
+
+application.servers[0].ip=127.0.0.1
+application.servers[1].ip=127.0.0.2
+
+
+In .yml -> Much simpler:
+
+application:
+  servers:
+    - ip: 127.0.0.1
+    - ip: 127.0.0.2
+
+----------------------------------------------------------------------------------------------------------------------------
+
+4)Multiple environments (Profiles)
+
+We can have different settings for different environments, like:
+ -dev → development
+ -prod → production
+
+
+In .properties -> We can separate with #---:
+
+logging.file.name=myapp.log
+#---
+spring.config.activate.on-profile=dev
+spring.datasource.url=jdbc:h2:dev
+#---
+spring.config.activate.on-profile=prod
+spring.datasource.url=jdbc:h2:prod
+
+-------------------------------------------------
+
+In .yml -> We use three dashes (---):
+
+logging.file.name=myapp.log
+#---
+spring.config.activate.on-profile=dev
+spring.datasource.url=jdbc:h2:dev
+#---
+spring.config.activate.on-profile=prod
+spring.datasource.url=jdbc:h2:prod
+
+----------------------------------------------------------------------------------------------------------------------------
+
+5)We Don’t use both at the same time
+
+If we use both application.properties and application.yml,
+Spring Boot might get confused which value to use.
+
+* It usually loads .properties last (so it overwrites .yml).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+6)How we read values from them in code
+
+1-@Value -> Inject a single value:
+
+@Value("${spring.datasource.url}")
+private String dbUrl;
+
+
+2-Environment -> Get a value programmatically:
+
+@Autowired
+private Environment env;
+
+String url = env.getProperty("spring.datasource.url");
+
+
+3-@ConfigurationProperties -> Bind a group of settings into an object:
+
+@ConfigurationProperties(prefix = "mail")
+public class MailConfig {
+    private String host;
+    private String port;
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
