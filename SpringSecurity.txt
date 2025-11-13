@@ -1,0 +1,50 @@
+1.Basic Authentication
+
+-The simplest form of authentication.
+-Every request from the user sends: username:password
+-encoded in Base64 in the HTTP header.
+-Example header: Authorization: Basic YWRtaW46cGFzc3dvcmQ=
+-The server checks these credentials each time.
+
+Simple but not very secure — should only be used over HTTPS because credentials are sent every time.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. JWT (JSON Web Token)
+
+-A token-based authentication method.
+-After login, the server gives the client a token (a signed string that has user info).
+-Example: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+-The client sends this token in each request instead of username/password.
+-The server verifies the token signature and allows access.
+
+More secure and stateless — no need to store sessions on the server.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. OAuth 2
+
+-Used when we want to log in using another service like Google, Facebook, or GitHub.
+-We don’t give our password to the app — we give permission to access some data (like your email or profile).
+-Example:We click "Login with Google" -> Google verifies us → sends a token to the app → the app uses that to access our info.
+
+Safer for users, commonly used for social logins and API integrations.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Filtering
+
+-Filters are like security checkpoints for every request.
+-They run before the controller and can:
+  -Check authentication (is the user logged in?)
+  -Check authorization (does the user have permission?)
+  -Log requests or block some URLs
+-Example:1)UsernamePasswordAuthenticationFilter handles login requests.  2)JwtAuthenticationFilter validates JWT tokens before reaching the controller.
+
+Think of filters as guards that check requests before they reach the endpoints.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
