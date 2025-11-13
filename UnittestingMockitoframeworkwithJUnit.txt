@@ -1,0 +1,39 @@
+JUnit 5: the framework for writing and running tests in Java. We mark methods with @Test etc.
+
+Mockito: a framework for mocking dependencies — meaning: when we're testing one class, we replace its collaborator classes with fakes/mocks so the test is fast, isolated, and predictable. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. Unit Test
+
+We test a single class or method without involving real services, DB, or external things. Example: ClassA has a dependency on ClassB → we test ClassA in isolation.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Mocking
+
+ClassA calls a database or an API via ClassB. We don’t want to hit the real DB/API in this test. So we make a mock of ClassB that returns what we decide. Then we test ClassA behavior.
+From Vogella:
+
+A mock object is a dummy implementation … that simulates the behavior of real objects in a controlled way.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Stubbing & Verifying
+
+-Stubbing: We tell a mock: when method X is called with Y → return Z. (when(...).thenReturn(...))
+-Verifying: After running the code, we check: did the mock’s method get called as expected, how many times, with which arguments. (verify(...)) 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Dependency Injection + @Mock / @InjectMocks
+
+In tests we often do:
+
+@Mock
+DependencyClass dep;
+
+@InjectMocks
+MyService service;  
+
+This tells Mockito: create a mock of DependencyClass, and inject it into MyService. Then test service.
